@@ -47,7 +47,7 @@
 								<i class="fas fa-layer-group"></i>
 								<p>Notes</p>
 						</a></li>
-						<li id="quizzes" class="nav-item"><a href="#forms">
+						<li id="quizzes" class="nav-item"><a href="/e-JAWI/TeacherController?action=listQuiz">
 								<i class="fas fa-pen-square"></i>
 								<p>Quizes</p>
 						</a></li>
