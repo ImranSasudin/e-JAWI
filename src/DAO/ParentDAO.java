@@ -58,8 +58,10 @@ public class ParentDAO {
             // if user exists set the isValid variable to true
             if (more) {
             	String parentEmail = rs.getString("parentEmail");
+            	String parentName = rs.getString("parentName");
            
                 bean.setParentEmail(parentEmail);
+                bean.setParentName(parentName);
                 bean.setValid(true);
            	}
            

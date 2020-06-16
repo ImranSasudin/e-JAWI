@@ -3,9 +3,9 @@ package Model;
 public class Notes {
 
 	private int notesID;
-	private String notesTitle, notesContent;
+	private String notesTitle, notesContent, teacherName;
 	public boolean valid;	
-//	private String teacherEmail;
+	private Integer teacherId;
 	
 	public Notes() {
 		super();
@@ -29,14 +29,14 @@ public class Notes {
 		this.notesID = notesID;
 	}
 
-/**	public String getTeacherEmail() {
-		return teacherEmail;
+	public Integer getTeacherId() {
+		return teacherId;
 	}
 
-	public void setTeacherEmail(String teacherEmail) {
-		this.teacherEmail = teacherEmail;
+	public void setTeacherId(Integer teacherId) {
+		this.teacherId = teacherId;
 	}
-*/
+
 	
 	public String getNotesTitle() {
 		return notesTitle;
@@ -52,6 +52,14 @@ public class Notes {
 
 	public void setNotesContent(String notesContent) {
 		this.notesContent = notesContent;
+	}
+
+	public String getTeacherName() {
+		return teacherName;
+	}
+
+	public void setTeacherName(String teacherName) {
+		this.teacherName = teacherName;
 	}
 
 	public boolean isValid() {

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import DAO.NotesDAO;
 import DAO.TeacherDAO;
 import Model.Teacher;
 /**
@@ -25,6 +26,7 @@ public class TeacherController extends HttpServlet {
     private static String UPDATE = "/teacher/updateTeacher.jsp";
     private static String UPDATEPASS = "/teacher/updatePass.jsp";
     private static String SEARCH = "/teacher/createTeacher.jsp";
+    private static String LIST_NOTES = "/teacher/listNotes.jsp";
    
 	String forward;
 	private TeacherDAO dao;
@@ -44,15 +46,22 @@ public class TeacherController extends HttpServlet {
 		// TODO Auto-generated method stub
 		String action = request.getParameter("action");
 		
+		if (action.equalsIgnoreCase("listNotes")) {
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
+			forward = LIST_NOTES;
+			request.setAttribute("notes", NotesDAO.getAllNotesById(id));
+		}
+		
 		if(action.equalsIgnoreCase("ViewAccount")) {
 			String email = request.getParameter("email");
-			teacher = dao.getTeacherByEmail(email);
+			teacher = TeacherDAO.getTeacherByEmail(email);
 			request.setAttribute("teacher", teacher);
 			forward = VIEW;
 		}
 		else if(action.equalsIgnoreCase("updateAccount")) {
 			String email = request.getParameter("email");
-			teacher = dao.getTeacherByEmail(email);
+			teacher = TeacherDAO.getTeacherByEmail(email);
 			request.setAttribute("teacher", teacher);
 			forward = UPDATE;
 		}		

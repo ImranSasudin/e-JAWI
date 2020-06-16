@@ -3,6 +3,7 @@ package Model;
 public class Teacher {
 
 	String teacherEmail, teacherPassword, teacherName, teacherAddress, teacherPhone, teacherRole;
+	Integer id;
 	boolean valid;
 	
 	public Teacher() {
@@ -20,6 +21,16 @@ public class Teacher {
 		this.teacherPhone = teacherPhone;
 		this.teacherRole = teacherRole;
 		this.valid = valid;
+	}
+	
+	
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getTeacherEmail() {

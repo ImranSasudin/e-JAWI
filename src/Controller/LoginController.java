@@ -85,11 +85,12 @@ public class LoginController extends HttpServlet {
         				//student = ParentDAO.getParentByEmail(email);
         				HttpSession session = request.getSession(true);
         				session.setAttribute("currentSessionUser", parent.getParentEmail());
+        				session.setAttribute("currentSessionUserName", parent.getParentName());
         				response.setContentType("text/html");
         			      PrintWriter pw = response.getWriter();
         			      pw.println("<script>");
         			      pw.println("alert('Login Successful');");
-        			      pw.println("window.location.href='/e-JAWI/indexParent.jsp';");
+        			      pw.println("window.location.href='/e-JAWI/ParentDashboard.jsp';");
         			      pw.println("</script>");
         			}
         			else
@@ -98,7 +99,7 @@ public class LoginController extends HttpServlet {
         			      PrintWriter pw = response.getWriter();
         			      pw.println("<script>");
         			      pw.println("alert('Incorrect Email or Password');");
-        			      pw.println("window.location.href='/e-JAWI/loginParent.jsp';");
+        			      pw.println("window.location.href='/e-JAWI/index.jsp';");
         			      pw.println("</script>");
         			}
         			
@@ -130,7 +131,7 @@ public class LoginController extends HttpServlet {
         			      PrintWriter pw = response.getWriter();
         			      pw.println("<script>");
         			      pw.println("alert('Login Successful');");
-        			      pw.println("window.location.href='/e-JAWI/indexStudent.jsp';");
+        			      pw.println("window.location.href='/e-JAWI/StudentDashboard.jsp';");
         			      pw.println("</script>");
         			}
         			else
@@ -139,7 +140,7 @@ public class LoginController extends HttpServlet {
         			      PrintWriter pw = response.getWriter();
         			      pw.println("<script>");
         			      pw.println("alert('Incorrect Email or Password');");
-        			      pw.println("window.location.href='/e-JAWI/loginStudent.jsp';");
+        			      pw.println("window.location.href='/e-JAWI/index.jsp';");
         			      pw.println("</script>");
         			}
         			
@@ -168,13 +169,15 @@ public class LoginController extends HttpServlet {
     			{
     				//teacher = TeacherDAO.getTeacherByEmail(email);
     				HttpSession session = request.getSession(true);
+    				session.setAttribute("currentSessionUserID", teacher.getId());
     				session.setAttribute("currentSessionUser", teacher.getTeacherEmail());
     				session.setAttribute("currentSessionUserRole", teacher.getTeacherRole());
+    				session.setAttribute("currentSessionUserName", teacher.getTeacherName());
     				response.setContentType("text/html");
     			      PrintWriter pw = response.getWriter();
     			      pw.println("<script>");
     			      pw.println("alert('Login Successful');");
-    			      pw.println("window.location.href='/e-JAWI/index.jsp';");
+    			      pw.println("window.location.href='/e-JAWI/TeacherDashboard.jsp';");
     			      pw.println("</script>");
     			}
     			else
@@ -183,7 +186,7 @@ public class LoginController extends HttpServlet {
     			      PrintWriter pw = response.getWriter();
     			      pw.println("<script>");
     			      pw.println("alert('Incorrect Email or Password');");
-    			      pw.println("window.location.href='/e-JAWI/loginTeacher.jsp';");
+    			      pw.println("window.location.href='/e-JAWI/index.jsp';");
     			      pw.println("</script>");
     			}
     			
