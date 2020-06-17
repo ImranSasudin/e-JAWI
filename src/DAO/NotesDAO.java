@@ -102,7 +102,7 @@ public class NotesDAO {
 
 		try {
 			currentCon = ConnectionManager.getConnection();
-			ps = currentCon.prepareStatement("select * from note");
+			ps = currentCon.prepareStatement("select * from note n join teachers t on (n.teacherId = t.id)");
 
 			ResultSet rs = ps.executeQuery();
 
@@ -112,7 +112,7 @@ public class NotesDAO {
 				notes.setNotesID(rs.getInt("notesID"));
 				notes.setNotesTitle(rs.getString("notesTitle"));
 				notes.setNotesContent(rs.getString("notesContent"));
-				// notes.setTeacherEmail(rs.getString("teacherEmail"));
+				notes.setTeacherName(rs.getString("teacherName"));
 				note.add(notes);
 			}
 		} catch (SQLException e) {
@@ -152,7 +152,7 @@ public class NotesDAO {
 		Notes notes = new Notes();
 		try {
 			currentCon = ConnectionManager.getConnection();
-			ps = currentCon.prepareStatement("select * from note where notesID=?");
+			ps = currentCon.prepareStatement("select * from note n join teachers t on (n.teacherId = t.id) where notesID=?");
 
 			ps.setInt(1, notesID);
 
@@ -162,7 +162,7 @@ public class NotesDAO {
 				notes.setNotesID(rs.getInt("notesID"));
 				notes.setNotesTitle(rs.getString("notesTitle"));
 				notes.setNotesContent(rs.getString("notesContent"));
-				// notes.setTeacherEmail(rs.getString("teacherEmail"));
+				notes.setTeacherName(rs.getString("teacherName"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

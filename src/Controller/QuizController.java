@@ -22,6 +22,9 @@ import Model.Quiz;
 public class QuizController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static String LIST_QUESTIONS = "/question/listQuestions.jsp";
+	private static String LIST_QUIZ = "/question/listQuizzes.jsp";
+	private static String ANSWER_QUIZ = "/question/answerQuiz.jsp";
+	private static String UNANSWERED = "/question/unansweredQ.jsp";
 
 	String forward;
 
@@ -44,6 +47,13 @@ public class QuizController extends HttpServlet {
 		String action = request.getParameter("action");
 
 		if (action.equalsIgnoreCase("ListQuiz")) {
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
+			forward = LIST_QUIZ;
+			request.setAttribute("quizzes", QuizDAO.getAllQuizByStudentID(id));
+			
+			RequestDispatcher view = request.getRequestDispatcher(forward);
+			view.forward(request, response);
 
 		}
 		else if (action.equalsIgnoreCase("ViewQuestion")) {
@@ -52,9 +62,54 @@ public class QuizController extends HttpServlet {
 			forward=LIST_QUESTIONS;
 			request.setAttribute("questions", QuestionDAO.getAllQuestionById(quizID));
 			request.setAttribute("quiz", QuizDAO.getQuizByID(quizID));
+			
+			RequestDispatcher view = request.getRequestDispatcher(forward);
+			view.forward(request, response);
 		}
-		RequestDispatcher view = request.getRequestDispatcher(forward);
-		view.forward(request, response);
+		else if (action.equalsIgnoreCase("TakeTest")) {
+			String quizID = request.getParameter("quizID");
+			
+			forward=ANSWER_QUIZ;
+			request.setAttribute("questions", QuestionDAO.getAllQuestionById(quizID));
+			request.setAttribute("question", QuestionDAO.getFirstQuestion(quizID));
+			request.setAttribute("quiz", QuizDAO.getQuizByID(quizID));
+			
+			RequestDispatcher view = request.getRequestDispatcher(forward);
+			view.forward(request, response);
+		}
+		else if (action.equalsIgnoreCase("unansweredQ")) {
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
+			Integer quizId = Integer.parseInt(request.getParameter("quizId"));
+			String quizIdS = request.getParameter("quizId");
+			
+			forward=UNANSWERED;
+			request.setAttribute("questions", QuestionDAO.getAllUnansweredQuestion(id, quizId));
+			request.setAttribute("quiz", QuizDAO.getQuizByID(quizIdS));
+			
+			RequestDispatcher view = request.getRequestDispatcher(forward);
+			view.forward(request, response);
+		}
+		else if (action.equalsIgnoreCase("submit")) {
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
+			Integer quizId = Integer.parseInt(request.getParameter("quizId"));
+			
+			quiz = QuizDAO.calculateResult(quizId, id);
+			
+			quiz.setStudentId(id);
+			quiz.setQuizId(quizId);
+			
+			QuizDAO.addResult(quiz);
+			
+			response.setContentType("text/html");
+			PrintWriter pw = response.getWriter();
+			pw.println("<script>");
+			pw.println("alert('Quiz Submitted!');");
+			pw.println("window.location.href='/e-JAWI/QuizController?action=ListQuiz';");
+			pw.println("</script>");
+		}
+		
 
 	}
 

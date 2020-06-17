@@ -1,7 +1,6 @@
 <%
 	String email = (String) session.getAttribute("currentSessionUser");
 	String name = (String) session.getAttribute("currentSessionUserName");
-	String role = (String) session.getAttribute("currentSessionUserRole");
 %>
 <!-- Logo Header -->
 <div class="logo-header">

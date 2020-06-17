@@ -4,6 +4,7 @@ public class Student {
 
 	String studentEmail, studentPassword, studentName, studentAddress, studentPhone;
 	boolean valid;
+	Integer studentID;
 	
 	public Student() {
 		super();
@@ -20,6 +21,16 @@ public class Student {
 		this.studentAddress = studentAddress;
 		this.studentPhone = studentPhone;
 		this.valid = valid;
+	}
+	
+	
+
+	public Integer getStudentID() {
+		return studentID;
+	}
+
+	public void setStudentID(Integer studentID) {
+		this.studentID = studentID;
 	}
 
 	public String getStudentEmail() {

@@ -22,9 +22,10 @@ import Model.Notes;
 public class NotesController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static String LIST_NOTES = "/notes/viewNotes.jsp";
+	private static String LIST_NOTES = "/notes/listNotes.jsp";
 	private static String UPDATE = "/notes/updateNotes.jsp";
 	private static String DELETE = "/notes/deleteNotes.jsp";
+	private static String VIEW = "/notes/viewNote.jsp";
 
 	private String forward;
 	NotesDAO dao = new NotesDAO();
@@ -49,6 +50,13 @@ public class NotesController extends HttpServlet {
 		if (action.equalsIgnoreCase("listNotes")) {
 			forward = LIST_NOTES;
 			request.setAttribute("notes", NotesDAO.getAllNotes());
+		}
+		
+		else if (action.equalsIgnoreCase("viewNotes")) {
+			forward = VIEW;
+			int notesID = Integer.parseInt(request.getParameter("notesID"));
+			Notes notes = NotesDAO.getNotesByNotesID(notesID);
+			request.setAttribute("notes", notes);
 		}
 
 		else if (action.equalsIgnoreCase("updateNotes")) {

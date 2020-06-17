@@ -18,7 +18,7 @@ public class QuizDAO {
 	static Statement stmt = null;
 
 	static String quizName;
-	static Integer teacherId, quizID;
+	static Integer teacherId, quizID, studentId, count;
 
 	// add quiz
 	public static void add(Quiz quiz) {
@@ -28,10 +28,75 @@ public class QuizDAO {
 
 		try {
 			currentCon = ConnectionManager.getConnection();
-			ps = currentCon
-					.prepareStatement("insert into quiz (QuizName, teacherId)" + " values(?,?)");
+			ps = currentCon.prepareStatement("insert into quiz (QuizName, teacherId)" + " values(?,?)");
 			ps.setString(1, quizName);
 			ps.setInt(2, teacherId);
+			ps.executeUpdate();
+
+		}
+
+		catch (Exception ex) {
+			System.out.println("failed: An Exception has occured!" + ex);
+		}
+
+		finally {
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (Exception e) {
+					ps = null;
+				}
+				if (currentCon != null) {
+					try {
+						currentCon.close();
+					} catch (Exception e_) {
+						currentCon = null;
+					}
+				}
+			}
+		}
+	}
+
+	// calculate result
+	public static Quiz calculateResult(Integer quizId, Integer studentid) {
+
+		Quiz quiz = new Quiz();
+		try {
+			currentCon = ConnectionManager.getConnection();
+			ps = currentCon
+					.prepareStatement("select count(DISTINCT(q.questionid)) from studentanswer s join "
+							+ "questions q where s.choosenanswer = q.answer and q.quizID = ? and s.studentid = ?");
+
+			ps.setInt(1, quizId);
+			ps.setInt(2, studentid);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				quiz.setCount(rs.getInt(1));
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return quiz;
+	}
+
+	// add result
+	public static void addResult(Quiz quiz) {
+
+		quizID = quiz.getQuizId();
+		studentId = quiz.getStudentId();
+		count = quiz.getCount();
+
+		try {
+			currentCon = ConnectionManager.getConnection();
+			ps = currentCon
+					.prepareStatement("insert into result (quizId, studentID, correctAnswer)" + " values(?,?,?)");
+			ps.setInt(1, quizID);
+			ps.setInt(2, studentId);
+			ps.setInt(3, count);
 			ps.executeUpdate();
 
 		}
@@ -82,12 +147,46 @@ public class QuizDAO {
 
 		return quizzes;
 	}
-	
+
+	// get all quizzes
+	public static List<Quiz> getAllQuizByStudentID(Integer id) {
+		List<Quiz> quizzes = new ArrayList<Quiz>();
+
+		try {
+			currentCon = ConnectionManager.getConnection();
+			ps = currentCon.prepareStatement("SELECT\r\n" + "    q.QuizId,\r\n" + "    QuizName,\r\n"
+					+ "    teacherId,\r\n" + "    teacherName,\r\n" + "    COUNT(questionid)\r\n" + "FROM\r\n"
+					+ "    quiz q\r\n" + "JOIN teachers t ON\r\n" + "    (q.teacherId = t.id)\r\n"
+					+ "JOIN questions ques ON\r\n" + "    (q.quizID = ques.quizID)\r\n" + "WHERE\r\n"
+					+ "    q.QuizId not IN(\r\n" + "    SELECT\r\n" + "        quizID from result\r\n" + "    WHERE\r\n"
+					+ "        studentID = '" + id + "'\r\n" + ")\r\n" + "GROUP BY\r\n" + "    1,\r\n" + "    2,\r\n"
+					+ "    3,\r\n" + "    4");
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Quiz quiz = new Quiz();
+
+				quiz.setQuizId(rs.getInt("QuizId"));
+				quiz.setQuizName(rs.getString("QuizName"));
+				quiz.setTeacherId(rs.getInt("teacherId"));
+				quiz.setTeacherName(rs.getString("teacherName"));
+				quiz.setCount(rs.getInt(5));
+				quizzes.add(quiz);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return quizzes;
+	}
+
 	public static Quiz getQuizByID(String quizID) {
 		Quiz quiz = new Quiz();
 		try {
 			currentCon = ConnectionManager.getConnection();
-			ps = currentCon.prepareStatement("select * from quiz q join teachers t on (q.teacherId = t.id) where q.quizid=?");
+			ps = currentCon
+					.prepareStatement("select * from quiz q join teachers t on (q.teacherId = t.id) where q.quizid=?");
 
 			ps.setString(1, quizID);
 

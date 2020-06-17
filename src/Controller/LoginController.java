@@ -53,6 +53,8 @@ public class LoginController extends HttpServlet {
     	action = request.getParameter("action");
 		HttpSession session = request.getSession(true);
 		if (action.equalsIgnoreCase("Logout")){ //logout
+		session.setAttribute("currentSessionUserID", null);
+		session.setAttribute("currentSessionUserName", null);
 		session.setAttribute("currentSessionUser", null);
 		session.setAttribute("currentSessionUserRole", null);
 		session.invalidate();
@@ -61,7 +63,7 @@ public class LoginController extends HttpServlet {
 	      PrintWriter pw = response.getWriter();
 	      pw.println("<script>");
 	      pw.println("alert('Logout Success');");
-	      pw.println("window.location.href='/e-JAWI/login.jsp';");
+	      pw.println("window.location.href='/e-JAWI/index.jsp';");
 	      pw.println("</script>");
 		}
     }
@@ -127,6 +129,10 @@ public class LoginController extends HttpServlet {
         				//student = StudentDAO.getStudentByEmail(email);
         				HttpSession session = request.getSession(true);
         				session.setAttribute("currentSessionUser", student.getStudentEmail());
+        				session.setAttribute("currentSessionUserID", student.getStudentID());
+        				session.setAttribute("currentSessionUserName", student.getStudentName());
+        				session.setAttribute("currentSessionUserRole", "Student");
+        				
         				response.setContentType("text/html");
         			      PrintWriter pw = response.getWriter();
         			      pw.println("<script>");

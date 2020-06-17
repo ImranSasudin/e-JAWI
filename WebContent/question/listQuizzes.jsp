@@ -42,12 +42,12 @@
 			Tip 1: You can change the background color of the main header using: data-background-color="blue | purple | light-blue | green | orange | red"
 		-->
 		<div class="main-header" data-background-color="light-blue">
-			<jsp:include page="../TeacherHeader.jsp" />
+			<jsp:include page="../StudentHeader.jsp" />
 		</div>
 
 		<!-- Sidebar -->
 		<div class="sidebar">
-			<jsp:include page="../TeacherSidebar.jsp" />
+			<jsp:include page="../StudentSidebar.jsp" />
 		</div>
 		<!-- End Sidebar -->
 
@@ -63,17 +63,12 @@
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
 							<li class="nav-item"><a href="#">Quiz</a></li>
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
-							<li class="nav-item"><a href="#">List</a></li>
+							<li class="nav-item"><a href="#">Take Quiz</a></li>
 						</ul>
 					</div>
 					<div class="row">
 
-						<div class="col-md-5">
-							<button class="btn btn-primary btn-round ml-auto"
-								data-toggle="modal" data-target="#addRowModal">
-								<i class="fa fa-plus"></i> Add Quiz
-							</button>
-							<br> <br>
+						<div class="col-md-7">
 							<div class="card">
 								<div class="card-header">
 									<div class="d-flex align-items-center">
@@ -82,47 +77,6 @@
 									</div>
 								</div>
 								<div class="card-body">
-									<!-- Modal -->
-									<div class="modal fade" id="addRowModal" tabindex="-1"
-										role="dialog" aria-hidden="true">
-										<div class="modal-dialog" role="document">
-											<div class="modal-content">
-												<form action="QuizController" method="post">
-													<div class="modal-header no-bd">
-														<h5 class="modal-title">
-															<span class="fw-mediumbold"> New</span> <span
-																class="fw-light"> Quiz </span>
-														</h5>
-														<button type="button" class="close" data-dismiss="modal"
-															aria-label="Close">
-															<span aria-hidden="true">&times;</span>
-														</button>
-													</div>
-													<div class="modal-body">
-														<!-- <p class="small">Create a new row using this form, make
-														sure you fill them all</p> -->
-
-														<div class="row">
-															<div class="col-sm-12">
-																<div class="form-group form-group-default">
-																	<label>Quiz Name</label> <input id="addName"
-																		type="text" class="form-control" name="name"
-																		placeholder="">
-																</div>
-															</div>
-														</div>
-
-													</div>
-													<div class="modal-footer no-bd">
-														<button type="submit" id="addRowButton" name="action" value="Add"
-															class="btn btn-primary">Add</button>
-														<button type="button" class="btn btn-danger"
-															data-dismiss="modal">Close</button>
-													</div>
-												</form>
-											</div>
-										</div>
-									</div>
 
 									<div class="table-responsive">
 										<table id="add-row"
@@ -130,12 +84,16 @@
 											<thead>
 												<tr>
 													<th>Quiz Name</th>
+													<th>Created By</th>
+													<th>Total Questions</th>
 													<th style="width: 10%">Action</th>
 												</tr>
 											</thead>
 											<tfoot>
 												<tr>
 													<th>Quiz Name</th>
+													<th>Created By</th>
+													<th>Total Questions</th>
 													<th>Action</th>
 												</tr>
 											</tfoot>
@@ -143,13 +101,15 @@
 												<c:forEach var="quiz" items="${quizzes}">
 													<tr>
 														<td><c:out value="${quiz.quizName}" /></td>
+														<td><c:out value="${quiz.teacherName}" /></td>
+														<td class="text-center"><c:out value="${quiz.count}" /></td>
 														<td>
 															<div class="form-button-action">
 																<a
-																	href="QuizController?action=ViewQuestion&quizID=<c:out value="${quiz.quizId}" />"
+																	href="QuizController?action=TakeTest&quizID=<c:out value="${quiz.quizId}" />"
 																	data-toggle="tooltip" title=""
-																	class="btn btn-link btn-primary btn-lg"
-																	data-original-title="View Questions"> <i
+																	class="btn btn-link btn-primary btn-lg" onClick="return confirm('Take test confirmation');"
+																	data-original-title="Take Quiz"> <i
 																	class="fas fa-copy"></i>
 																</a>
 															</div>
@@ -222,6 +182,9 @@
 
 	<script>
 		$('#quizzes').addClass("active");
+		$('#quizzes').addClass("submenu");
+		$('#quiz').addClass("show");
+		$('#takequiz').addClass("active");
 		$(document)
 				.ready(
 						function() {
@@ -284,6 +247,10 @@
 							// Add Row
 							$('#add-row').DataTable({
 								"pageLength" : 5,
+								"columnDefs" : [ {
+									"width" : "17%",
+									"targets" : 2
+								} ]
 							});
 						});
 	</script>

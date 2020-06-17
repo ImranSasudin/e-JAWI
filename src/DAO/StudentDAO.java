@@ -60,6 +60,8 @@ public class StudentDAO {
             	String studentEmail = rs.getString("studentEmail");
            
                 bean.setStudentEmail(studentEmail);
+                bean.setStudentID(rs.getInt("id"));
+                bean.setStudentName(rs.getString("studentName"));
                 bean.setValid(true);
            	}
            
