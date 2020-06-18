@@ -107,7 +107,7 @@
 																	href="NotesController?action=updateNotes&notesID=<c:out value="${notes.notesID}" />"
 																	data-toggle="tooltip" title=""
 																	class="btn btn-link btn-primary btn-lg"
-																	data-original-title="Edit Task"> <i
+																	data-original-title="Edit Note"> <i
 																	class="fa fa-edit"></i>
 																</a> <a
 																	href="NotesController?action=deleteNotes&notesID=<c:out value="${notes.notesID}" />"

@@ -30,6 +30,7 @@ public class TeacherController extends HttpServlet {
 	private static String SEARCH = "/teacher/createTeacher.jsp";
 	private static String LIST_NOTES = "/teacher/listNotes.jsp";
 	private static String LIST_QUIZ = "/teacher/listQuizzes.jsp";
+	private static String LIST = "/teacher/listTeacher.jsp";
 
 	String forward;
 	private TeacherDAO dao;
@@ -84,6 +85,11 @@ public class TeacherController extends HttpServlet {
 			String email = request.getParameter("email");
 			Teacher teacher = TeacherDAO.getTeacherByEmail(email);
 			request.setAttribute("teacher", teacher);
+			
+		} else if (action.equalsIgnoreCase("ListTeacher")) {
+			
+			request.setAttribute("teachers", TeacherDAO.getAllTeacher());
+			forward = LIST;
 			
 		}
 

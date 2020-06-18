@@ -4,7 +4,7 @@ public class Quiz {
 	
 	private String quizName, teacherName;
 	public boolean valid;	
-	private Integer quizId, teacherId, count, studentId;
+	private Integer quizId, teacherId, count, studentId, correctanswer;
 	
 	public String getQuizName() {
 		return quizName;
@@ -47,6 +47,12 @@ public class Quiz {
 	}
 	public void setStudentId(Integer studentId) {
 		this.studentId = studentId;
+	}
+	public Integer getCorrectanswer() {
+		return correctanswer;
+	}
+	public void setCorrectanswer(Integer correctanswer) {
+		this.correctanswer = correctanswer;
 	}
 	
 	

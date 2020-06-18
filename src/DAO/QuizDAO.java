@@ -63,9 +63,8 @@ public class QuizDAO {
 		Quiz quiz = new Quiz();
 		try {
 			currentCon = ConnectionManager.getConnection();
-			ps = currentCon
-					.prepareStatement("select count(DISTINCT(q.questionid)) from studentanswer s join "
-							+ "questions q where s.choosenanswer = q.answer and q.quizID = ? and s.studentid = ?");
+			ps = currentCon.prepareStatement("select count(DISTINCT(q.questionid)) from studentanswer s join "
+					+ "questions q where s.choosenanswer = q.answer and q.quizID = ? and s.studentid = ?");
 
 			ps.setInt(1, quizId);
 			ps.setInt(2, studentid);
@@ -203,6 +202,35 @@ public class QuizDAO {
 		}
 
 		return quiz;
+	}
+
+	public static List<Quiz> getAnsweredQuiz(Integer studentid) {
+		List<Quiz> quizzes = new ArrayList<Quiz>();
+		
+		try {
+			currentCon = ConnectionManager.getConnection();
+			ps = currentCon
+					.prepareStatement("select quiz.quizName, correctanswer, teacherName, count(q.questionID) from result r join questions q on "
+							+ "(r.quizid = q.quizid) join quiz on (quiz.QuizId=q.quizID) join teachers t on (t.id = quiz.teacherId) where r.studentID = ? group by 1,2,3 ");
+
+			ps.setInt(1, studentid);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+				Quiz quiz = new Quiz();
+				quiz.setQuizName(rs.getString(1));
+				quiz.setCorrectanswer(rs.getInt(2));
+				quiz.setTeacherName(rs.getString(3));
+				quiz.setCount(rs.getInt(4));
+				quizzes.add(quiz);
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return quizzes;
 	}
 
 }

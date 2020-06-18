@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>Quiz</title>
+<title>Teachers</title>
 <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no'
 	name='viewport' />
 <link rel="icon" href="/e-JAWI/assets/img/icon.ico" type="image/x-icon" />
@@ -36,18 +36,18 @@
 <!-- CSS Just for demo purpose, don't include it in your project -->
 <link rel="stylesheet" href="/e-JAWI/assets/css/demo.css">
 </head>
-<body data-background-color="bg3" >
+<body data-background-color="bg3">
 	<div class="wrapper">
 		<!--
 			Tip 1: You can change the background color of the main header using: data-background-color="blue | purple | light-blue | green | orange | red"
 		-->
 		<div class="main-header" data-background-color="light-blue">
-			<jsp:include page="../StudentHeader.jsp" />
+			<jsp:include page="../AdminHeader.jsp" />
 		</div>
 
 		<!-- Sidebar -->
 		<div class="sidebar">
-			<jsp:include page="../StudentSidebar.jsp" />
+			<jsp:include page="../AdminSidebar.jsp" />
 		</div>
 		<!-- End Sidebar -->
 
@@ -55,62 +55,136 @@
 			<div class="content">
 				<div class="page-inner">
 					<div class="page-header">
-						<h4 class="page-title">Quizzes</h4>
+						<h4 class="page-title">Teachers</h4>
 						<ul class="breadcrumbs">
 							<li class="nav-home"><a href="#"> <i
 									class="flaticon-home"></i>
 							</a></li>
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
-							<li class="nav-item"><a href="#">Quiz</a></li>
+							<li class="nav-item"><a href="#">Users</a></li>
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
-							<li class="nav-item"><a href="#">Take Quiz</a></li>
+							<li class="nav-item"><a href="#">Teacher</a></li>
 						</ul>
 					</div>
 					<div class="row">
 
-						<div class="col-md-7">
+						<div class="col-md-10">
+							<button class="btn btn-primary btn-round ml-auto"
+								data-toggle="modal" data-target="#addRowModal">
+								<i class="fa fa-plus"></i> Add Teacher
+							</button>
+							<br> <br>
 							<div class="card">
 								<div class="card-header">
 									<div class="d-flex align-items-center">
-										<h4 class="card-title">List Quizzes</h4>
+										<h4 class="card-title">List Teachers</h4>
 
 									</div>
 								</div>
 								<div class="card-body">
+
+									<!-- Modal -->
+									<div class="modal fade" id="addRowModal" tabindex="-1"
+										role="dialog" aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<form action="TeacherController" method="post">
+													<div class="modal-header no-bd">
+														<h5 class="modal-title">
+															<span class="fw-mediumbold"> Add</span> <span
+																class="fw-light"> Teacher </span>
+														</h5>
+														<button type="button" class="close" data-dismiss="modal"
+															aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="modal-body">
+														<!-- <p class="small">Create a new row using this form, make
+														sure you fill them all</p> -->
+
+														<div class="row">
+															<div class="col-sm-12">
+																<div class="form-group form-group-default">
+																	<label>Email</label> <input id="" type="email" required
+																		class="form-control" name="email" placeholder="">
+																</div>
+																<div class="form-group form-group-default">
+																	<label>Name</label> <input id="" type="text" required
+																		class="form-control" name="name" placeholder="">
+																</div>
+																<div class="form-group form-group-default">
+																	<label>Address</label>
+																	<textarea id="" class="form-control" name="address"
+																		placeholder=""></textarea>
+																</div>
+																<div class="form-group form-group-default">
+																	<label>Phone</label> <input id="" type="number" required
+																		class="form-control" name="phone" placeholder="">
+																</div>
+																<div class="form-group form-group-default">
+																	<label>Role</label> 
+																	<select id="" class="form-control" required
+																		name="role">
+																		<option selected disabled value="">-- Role --</option>
+																		<option value="Teacher">Teacher</option>
+																		<option value="Admin">Admin</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+
+													</div>
+													<div class="modal-footer no-bd">
+														<button type="submit" id="addRowButton" name="action"
+															value="Add" class="btn btn-primary">Add</button>
+														<button type="button" class="btn btn-danger"
+															data-dismiss="modal">Close</button>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
 
 									<div class="table-responsive">
 										<table id="add-row"
 											class="display table table-striped table-hover">
 											<thead>
 												<tr>
-													<th>Quiz Name</th>
-													<th>Created By</th>
-													<th>Total Questions</th>
+													<th>Email</th>
+													<th>Name</th>
+													<th>Address</th>
+													<th>Phone</th>
+													<th>Role</th>
 													<th style="width: 10%">Action</th>
 												</tr>
 											</thead>
 											<tfoot>
 												<tr>
-													<th>Quiz Name</th>
-													<th>Created By</th>
-													<th>Total Questions</th>
+													<th>Email</th>
+													<th>Name</th>
+													<th>Address</th>
+													<th>Phone</th>
+													<th>Role</th>
 													<th>Action</th>
 												</tr>
 											</tfoot>
 											<tbody>
-												<c:forEach var="quiz" items="${quizzes}">
+												<c:forEach var="teacher" items="${teachers}">
 													<tr>
-														<td><c:out value="${quiz.quizName}" /></td>
-														<td><c:out value="${quiz.teacherName}" /></td>
-														<td class="text-center"><c:out value="${quiz.count}" /></td>
+														<td><c:out value="${teacher.teacherEmail}" /></td>
+														<td><c:out value="${teacher.teacherName}" /></td>
+														<td><c:out value="${teacher.teacherAddress}" /></td>
+														<td><c:out value="${teacher.teacherPhone}" /></td>
+														<td><c:out value="${teacher.teacherRole}" /></td>
 														<td>
 															<div class="form-button-action">
 																<a
-																	href="QuizController?action=TakeTest&quizID=<c:out value="${quiz.quizId}" />"
+																	href="NotesController?action=updateNotes&notesID=<c:out value="${teacher.id}" />"
 																	data-toggle="tooltip" title=""
-																	class="btn btn-link btn-primary btn-lg" onClick="return confirm('Take test confirmation');"
-																	data-original-title="Take Quiz"> <i
-																	class="fas fa-copy"></i>
+																	class="btn btn-link btn-primary btn-lg"
+																	data-original-title="Edit"> <i
+																	class="fa fa-edit"></i>
 																</a>
 															</div>
 														</td>
@@ -181,10 +255,10 @@
 	<script src="/e-JAWI/assets/js/ready.min.js"></script>
 
 	<script>
-		$('#quizzes').addClass("active");
-		$('#quizzes').addClass("submenu");
-		$('#quiz').addClass("show");
-		$('#takequiz').addClass("active");
+		$('#User').addClass("active");
+		$('#User').addClass("submenu");
+		$('#user').addClass("show");
+		$('#Teacher').addClass("active");
 		$(document)
 				.ready(
 						function() {
@@ -248,9 +322,13 @@
 							$('#add-row').DataTable({
 								"pageLength" : 5,
 								"columnDefs" : [ {
-									"width" : "17%",
-									"targets" : 2
-								} ]
+									"width" : "15%",
+									"targets" : 3,
+								}, {
+									"width" : "10%",
+									"targets" : 4
+								} ],
+
 							});
 						});
 	</script>

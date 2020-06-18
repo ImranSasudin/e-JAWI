@@ -52,7 +52,7 @@
 		<div class="main-panel">
 			<div class="content">
 				<div class="page-inner">
-					<div class="page-header">
+					 <div class="page-header">
 						<h4 class="page-title">Dashboard</h4>
 						<div class="btn-group btn-group-page-header ml-auto">
 							<button type="button"
@@ -71,7 +71,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<!--<div class="row">
 						<div class="col-sm-6 col-md-3">
 							<div class="card card-stats card-round">
 								<div class="card-body ">
@@ -616,7 +616,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</div> -->
 			</div>
 
 		</div>

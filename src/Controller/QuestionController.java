@@ -82,10 +82,12 @@ public class QuestionController extends HttpServlet {
 			request.setAttribute("questions", QuestionDAO.getAllQuestionById(quizIdS));
 			request.setAttribute("question", QuestionDAO.getNextQuestion(quizId, number));
 			request.setAttribute("quiz", QuizDAO.getQuizByID(quizIdS));
+			
+			RequestDispatcher view = request.getRequestDispatcher(forward);
+			view.forward(request, response);
 
 		}
-		RequestDispatcher view = request.getRequestDispatcher(forward);
-		view.forward(request, response);
+		
 	}
 
 	/**

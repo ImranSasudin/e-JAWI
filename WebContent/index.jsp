@@ -52,7 +52,8 @@
 					<div class="wrap-input100" data-validate="">
 						<select class="input100" name="action" required>
 							<option value="" selected disabled>Login As:</option>
-							<option value="LoginTeacher">Teacher / Admin</option>
+							<option value="LoginTeacher">Teacher</option>
+							<option value="LoginAdmin">Admin</option>
 							<option value="LoginParent">Parent</option>
 							<option value="LoginStudent">Student</option>
 						</select> <span class="focus-input100"></span>

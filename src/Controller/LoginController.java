@@ -221,13 +221,15 @@ public class LoginController extends HttpServlet {
     			{
     				//teacher = TeacherDAO.getTeacherByEmail(email);
     				HttpSession session = request.getSession(true);
+    				session.setAttribute("currentSessionUserID", teacher.getId());
     				session.setAttribute("currentSessionUser", teacher.getTeacherEmail());
     				session.setAttribute("currentSessionUserRole", teacher.getTeacherRole());
+    				session.setAttribute("currentSessionUserName", teacher.getTeacherName());
     				response.setContentType("text/html");
     			      PrintWriter pw = response.getWriter();
     			      pw.println("<script>");
     			      pw.println("alert('Login Successful');");
-    			      pw.println("window.location.href='/e-JAWI/indexAdmin.jsp';");
+    			      pw.println("window.location.href='/e-JAWI/AdminDashboard.jsp';");
     			      pw.println("</script>");
     			}
     			else

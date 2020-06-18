@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import DAO.QuizDAO;
 import DAO.StudentDAO;
 import Model.Student;
 
@@ -26,6 +27,7 @@ public class StudentController extends HttpServlet {
     private static String UPDATE = "/student/updateStudent.jsp";
     //private static String UPDATEPASS = "/student/updatePass.jsp";
     private static String SEARCH = "/student/createStudent.jsp";
+    private static String RESULT = "/student/listResult.jsp";
    
 	String forward;
 	private StudentDAO dao;
@@ -55,6 +57,15 @@ public class StudentController extends HttpServlet {
 			student = dao.getStudentByEmail(email);
 			request.setAttribute("student", student);
 			forward = UPDATE;
+		}
+		else if (action.equalsIgnoreCase("ListQuiz")) {
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
+			
+			forward = RESULT;
+			
+			request.setAttribute("quizzes", QuizDAO.getAnsweredQuiz(id));
+
 		}
 		RequestDispatcher view = request.getRequestDispatcher(forward);
         view.forward(request, response);

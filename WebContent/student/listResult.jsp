@@ -63,7 +63,7 @@
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
 							<li class="nav-item"><a href="#">Quiz</a></li>
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
-							<li class="nav-item"><a href="#">Take Quiz</a></li>
+							<li class="nav-item"><a href="#">Result</a></li>
 						</ul>
 					</div>
 					<div class="row">
@@ -72,7 +72,7 @@
 							<div class="card">
 								<div class="card-header">
 									<div class="d-flex align-items-center">
-										<h4 class="card-title">List Quizzes</h4>
+										<h4 class="card-title">List Answered Quizzes</h4>
 
 									</div>
 								</div>
@@ -85,16 +85,14 @@
 												<tr>
 													<th>Quiz Name</th>
 													<th>Created By</th>
-													<th>Total Questions</th>
-													<th style="width: 10%">Action</th>
+													<th class="text-center">Result</th>
 												</tr>
 											</thead>
 											<tfoot>
 												<tr>
 													<th>Quiz Name</th>
 													<th>Created By</th>
-													<th>Total Questions</th>
-													<th>Action</th>
+													<th class="text-center">Result</th>
 												</tr>
 											</tfoot>
 											<tbody>
@@ -102,18 +100,7 @@
 													<tr>
 														<td><c:out value="${quiz.quizName}" /></td>
 														<td><c:out value="${quiz.teacherName}" /></td>
-														<td class="text-center"><c:out value="${quiz.count}" /></td>
-														<td>
-															<div class="form-button-action">
-																<a
-																	href="QuizController?action=TakeTest&quizID=<c:out value="${quiz.quizId}" />"
-																	data-toggle="tooltip" title=""
-																	class="btn btn-link btn-primary btn-lg" onClick="return confirm('Take test confirmation');"
-																	data-original-title="Take Quiz"> <i
-																	class="fas fa-copy"></i>
-																</a>
-															</div>
-														</td>
+														<td class="text-center"><c:out value="${quiz.correctanswer}" />/<c:out value="${quiz.count}" /> (<c:out value="${quiz.correctanswer/quiz.count * 100}" />%)</td>
 													</tr>
 												</c:forEach>
 											</tbody>
@@ -184,7 +171,7 @@
 		$('#quizzes').addClass("active");
 		$('#quizzes').addClass("submenu");
 		$('#quiz').addClass("show");
-		$('#takequiz').addClass("active");
+		$('#result').addClass("active");
 		$(document)
 				.ready(
 						function() {

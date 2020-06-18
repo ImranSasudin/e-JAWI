@@ -14,7 +14,7 @@
 			<div class="info">
 				<a data-toggle="collapse" href="#collapseExample"
 					aria-expanded="true"> <span> <%=name%> <span
-						class="user-level">Student</span> <span class="caret"></span>
+						class="user-level">Admin</span> <span class="caret"></span>
 				</span>
 				</a>
 				<div class="clearfix"></div>
@@ -33,32 +33,38 @@
 		</div>
 		<ul class="nav">
 			<li id="dashboard" class="nav-item"><a
-				href="/e-JAWI/StudentDashboard.jsp"> <i class="fas fa-home"></i>
+				href="/e-JAWI/AdminDashboard.jsp"> <i class="fas fa-home"></i>
 					<p>Dashboard</p>
 			</a></li>
-			<!-- <li class="nav-section"><span class="sidebar-mini-icon">
-								<i class="fa fa-ellipsis-h"></i>
-						</span>
-							<h4 class="text-section">Components</h4></li> -->
+			<li id="User" class="nav-item"><a data-toggle="collapse"
+				href="#user"> <i class="fas fa-users"></i>
+					<p>Users</p> <span class="caret"></span>
+			</a>
+				<div class="collapse" id="user">
+					<ul class="nav nav-collapse">
+						<li id="Teacher"><a
+							href="/e-JAWI/TeacherController?action=ListTeacher"> <span
+								class="sub-item">Teacher</span>
+						</a></li>
+						<li id="Student"><a
+							href="/e-JAWI/StudentController?action=listQuiz"> <span
+								class="sub-item">Student</span>
+						</a></li>
+						<li id="Parent"><a
+							href="/e-JAWI/StudentController?action=listQuiz"> <span
+								class="sub-item">Parent</span>
+						</a></li>
+					</ul>
+				</div></li>
 			<li id="notes" class="nav-item"><a
 				href="/e-JAWI/NotesController?action=listNotes"> <i
 					class="fas fa-layer-group"></i>
 					<p>Notes</p>
 			</a></li>
-			<li id="quizzes" class="nav-item"><a data-toggle="collapse"
-				href="#quiz"> <i class="fas fa-pen-square"></i>
-					<p>Quizes</p> <span class="caret"></span>
-			</a>
-				<div class="collapse" id="quiz">
-					<ul class="nav nav-collapse">
-						<li id="takequiz"><a href="/e-JAWI/QuizController?action=listQuiz"> <span
-								class="sub-item">Take Quiz</span>
-						</a></li>
-						<li id="result"><a href="/e-JAWI/StudentController?action=listQuiz"> <span
-								class="sub-item">Result</span>
-						</a></li>
-					</ul>
-				</div></li>
+			<li id="quizzes" class="nav-item"><a
+				href="#"> <i class="fas fa-pen-square"></i>
+					<p>Quizes</p>
+			</a></li>
 
 		</ul>
 	</div>
