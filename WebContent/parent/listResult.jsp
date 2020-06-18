@@ -1,13 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>Student</title>
+<title>Result</title>
 <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no'
 	name='viewport' />
 <link rel="icon" href="/e-JAWI/assets/img/icon.ico" type="image/x-icon" />
@@ -29,7 +28,7 @@
 		}
 	});
 </script>
-<link rel="stylesheet" href="/e-JAWI/assets/css/select2.min.css">
+
 <!-- CSS Files -->
 <link rel="stylesheet" href="/e-JAWI/assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="/e-JAWI/assets/css/azzara.min.css">
@@ -37,18 +36,18 @@
 <!-- CSS Just for demo purpose, don't include it in your project -->
 <link rel="stylesheet" href="/e-JAWI/assets/css/demo.css">
 </head>
-<body data-background-color="bg3">
+<body data-background-color="bg3" >
 	<div class="wrapper">
 		<!--
 			Tip 1: You can change the background color of the main header using: data-background-color="blue | purple | light-blue | green | orange | red"
 		-->
 		<div class="main-header" data-background-color="light-blue">
-			<jsp:include page="../AdminHeader.jsp" />
+			<jsp:include page="../ParentHeader.jsp" />
 		</div>
 
 		<!-- Sidebar -->
 		<div class="sidebar">
-			<jsp:include page="../AdminSidebar.jsp" />
+			<jsp:include page="../ParentSidebar.jsp" />
 		</div>
 		<!-- End Sidebar -->
 
@@ -56,75 +55,59 @@
 			<div class="content">
 				<div class="page-inner">
 					<div class="page-header">
-						<h4 class="page-title">Student</h4>
+						<h4 class="page-title">Result</h4>
 						<ul class="breadcrumbs">
 							<li class="nav-home"><a href="#"> <i
 									class="flaticon-home"></i>
 							</a></li>
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
-							<li class="nav-item"><a href="#">Student</a></li>
+							<li class="nav-item"><a href="#">Quiz</a></li>
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
-							<li class="nav-item"><a href="#">Update</a></li>
+							<li class="nav-item"><a href="#">Result</a></li>
 						</ul>
 					</div>
 					<div class="row">
-						<div class="col-md-8">
+
+						<div class="col-md-7">
 							<div class="card">
 								<div class="card-header">
 									<div class="d-flex align-items-center">
-										<h4 class="card-title">Update Student</h4>
+										<h4 class="card-title">List Answered Quizzes</h4>
+
 									</div>
 								</div>
 								<div class="card-body">
-									<form action="/e-JAWI/StudentController" method="post">
-										<input type="hidden" name="id"
-											value="<c:out value="${student.studentID}"/>" />
-										<div class="row mt-3">
-											<div class="col-md-12">
-												<div class="form-group form-group-default">
-													<label>Email</label> <input id="" type="email" required
-														class="form-control" name="email"
-														value="<c:out value="${student.studentEmail }"/>"
-														placeholder="">
-												</div>
-												<div class="form-group form-group-default">
-													<label>Name</label> <input id="" type="text" required
-														class="form-control" name="name"
-														value="<c:out value="${student.studentName }"/>"
-														placeholder="">
-												</div>
-												<div class="form-group form-group-default">
-													<label>Address</label>
-													<textarea id="" class="form-control" name="address"
-														placeholder=""><c:out
-															value="${student.studentAddress }" /></textarea>
-												</div>
-												<div class="form-group form-group-default">
-													<label>Phone</label> <input id="" type="number" required
-														class="form-control" name="phone"
-														value="<c:out value="${student.studentPhone }"/>"
-														placeholder="">
-												</div>
-												<div class="form-group form-group-default select2-input">
-													<label>Parent</label><select required class="form-control"
-														style="width: 100%" id="basic" name="parent">
-														<option selected hidden="hidden"
-															value="<c:out value="${student.parentID }"/>"><c:out
-																value="${student.parentName }" /> (${student.parentEmail })</option>
-														<c:forEach var="parent" items="${parents}">
-															<option value="${parent.id }">${parent.parentName }
-																(${parent.parentEmail })</option>
-														</c:forEach>
-													</select>
-												</div>
-											</div>
-										</div>
-										<div class="text-right mt-3 mb-3">
+
+									<div class="table-responsive">
+										<table id="add-row"
+											class="display table table-striped table-hover">
+											<thead>
+												<tr>
+													<th>Quiz Name</th>
+													<th class="text-center">Result</th>
+												</tr>
+											</thead>
+											<tfoot>
+												<tr>
+													<th>Quiz Name</th>
+													<th class="text-center">Result</th>
+												</tr>
+											</tfoot>
+											<tbody>
+												<c:forEach var="quiz" items="${quizzes}">
+													<tr>
+														<td><c:out value="${quiz.quizName}" /></td>
+														<td class="text-center"><c:out value="${quiz.correctanswer}" />/<c:out value="${quiz.count}" /> (<c:out value="${quiz.correctanswer/quiz.count * 100}" />%)</td>
+													</tr>
+												</c:forEach>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<div class="card-footer">
+									<div class="text-left mt-3 mb-3">
 											<a class="btn btn-primary" href="javascript:history.back()">Back</a>
-											<button class="btn btn-success" name="action"
-												value="UpdateStudent">Save</button>
 										</div>
-									</form>
 								</div>
 							</div>
 						</div>
@@ -185,41 +168,77 @@
 
 	<!-- Azzara JS -->
 	<script src="/e-JAWI/assets/js/ready.min.js"></script>
-	<script src="https://cdn.ckeditor.com/4.14.0/full-all/ckeditor.js"></script>
-	<script src="/e-JAWI/assets/js/select2.full.min.js"></script>
+
 	<script>
-		$('#User').addClass("active");
-		$('#User').addClass("submenu");
-		$('#user').addClass("show");
-		$('#Student').addClass("active");
-		$(document).ready(function() {
-			$('#basic').select2({
-				theme : "bootstrap",
-			});
-		});
-		CKEDITOR.plugins.addExternal('exportpdf',
-				'/e-JAWI/notes/node_modules/ckeditor4/plugins/exportpdf/');
-		CKEDITOR
-				.replace(
-						'notesContent',
-						{
-							skin : 'kama',
-							extraPlugins : 'embed,autoembed,placeholder,emoji',
-							width : 940,
-							height : 700,
+		$('#quizzes').addClass("active");
+		$(document)
+				.ready(
+						function() {
+							$('#basic-datatables').DataTable({});
 
-							// Load the default contents.css file plus customizations for this sample.
+							$('#multi-filter-select')
+									.DataTable(
+											{
+												"pageLength" : 5,
+												initComplete : function() {
+													this
+															.api()
+															.columns()
+															.every(
+																	function() {
+																		var column = this;
+																		var select = $(
+																				'<select class="form-control"><option value=""></option></select>')
+																				.appendTo(
+																						$(
+																								column
+																										.footer())
+																								.empty())
+																				.on(
+																						'change',
+																						function() {
+																							var val = $.fn.dataTable.util
+																									.escapeRegex($(
+																											this)
+																											.val());
 
-							// Setup content provider. See https://ckeditor.com/docs/ckeditor4/latest/features/media_embed
-							embed_provider : '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
+																							column
+																									.search(
+																											val ? '^'
+																													+ val
+																													+ '$'
+																													: '',
+																											true,
+																											false)
+																									.draw();
+																						});
 
-						// Configure the Enhanced Image plugin to use classes instead of styles and to disable the
-						// resizer (because image size is controlled by widget styles or the image takes maximum
-						// 100% of the editor width).
-						/* image2_alignClasses: ['image-align-left', 'image-align-center', 'image-align-right'],
-						image2_disableResizer: true */
+																		column
+																				.data()
+																				.unique()
+																				.sort()
+																				.each(
+																						function(
+																								d,
+																								j) {
+																							select
+																									.append('<option value="'+d+'">'
+																											+ d
+																											+ '</option>')
+																						});
+																	});
+												}
+											});
+
+							// Add Row
+							$('#add-row').DataTable({
+								"pageLength" : 5,
+								"columnDefs" : [ {
+									"width" : "17%",
+									"targets" : 2
+								} ]
+							});
 						});
 	</script>
 </body>
 </html>
-

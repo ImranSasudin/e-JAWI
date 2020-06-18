@@ -3,6 +3,7 @@ package Model;
 public class Parent {
 
 	String parentEmail, parentPassword, parentName, parentAddress, parentPhone;
+	Integer id;
 	boolean valid;
 	
 	public Parent() {
@@ -69,5 +70,14 @@ public class Parent {
 	public void setValid(boolean valid) {
 		this.valid = valid;
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
 	
 }

@@ -21,10 +21,10 @@
 
 				<div class="collapse in" id="collapseExample">
 					<ul class="nav">
-						<li><a href="#profile"> <span class="link-collapse">My
+						<li><a href="/e-JAWI/TeacherController?action=viewProfile"> <span class="link-collapse">My
 									Profile</span>
 						</a></li>
-						<li><a href="#edit"> <span class="link-collapse">Edit
+						<li><a href="/e-JAWI/TeacherController?action=updateProfile"> <span class="link-collapse">Edit
 									Profile</span>
 						</a></li>
 					</ul>
@@ -47,11 +47,11 @@
 								class="sub-item">Teacher</span>
 						</a></li>
 						<li id="Student"><a
-							href="/e-JAWI/StudentController?action=listQuiz"> <span
+							href="/e-JAWI/StudentController?action=listStudent"> <span
 								class="sub-item">Student</span>
 						</a></li>
 						<li id="Parent"><a
-							href="/e-JAWI/StudentController?action=listQuiz"> <span
+							href="/e-JAWI/ParentController?action=ListParents"> <span
 								class="sub-item">Parent</span>
 						</a></li>
 					</ul>
@@ -60,10 +60,6 @@
 				href="/e-JAWI/NotesController?action=listNotes"> <i
 					class="fas fa-layer-group"></i>
 					<p>Notes</p>
-			</a></li>
-			<li id="quizzes" class="nav-item"><a
-				href="#"> <i class="fas fa-pen-square"></i>
-					<p>Quizes</p>
 			</a></li>
 
 		</ul>

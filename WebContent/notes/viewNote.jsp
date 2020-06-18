@@ -51,7 +51,7 @@
 		<% if(role.equalsIgnoreCase("Student")){ %>
 			<jsp:include page="../StudentHeader.jsp" />
 		<% } else if(role.equalsIgnoreCase("Admin")){  %>
-			<%-- <jsp:include page="../AdminHeader.jsp" /> --%>
+			<jsp:include page="../AdminHeader.jsp" />
 		<% } %>
 		</div>
 
@@ -60,7 +60,7 @@
 			<% if(role.equalsIgnoreCase("Student")){ %>
 				<jsp:include page="../StudentSidebar.jsp" />
 			<% } else if(role.equalsIgnoreCase("Admin")){  %>
-				<%-- <jsp:include page="../AdminHeader.jsp" /> --%>
+				<jsp:include page="../AdminSidebar.jsp" />
 			<% } %>
 		</div>
 		<!-- End Sidebar -->

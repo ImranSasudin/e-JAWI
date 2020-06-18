@@ -31,6 +31,7 @@ public class TeacherController extends HttpServlet {
 	private static String LIST_NOTES = "/teacher/listNotes.jsp";
 	private static String LIST_QUIZ = "/teacher/listQuizzes.jsp";
 	private static String LIST = "/teacher/listTeacher.jsp";
+	private static String RESULT = "/teacher/listResult.jsp";
 
 	String forward;
 	private TeacherDAO dao;
@@ -92,6 +93,14 @@ public class TeacherController extends HttpServlet {
 			forward = LIST;
 			
 		}
+		else if (action.equalsIgnoreCase("viewresult")) {
+			Integer id = Integer.parseInt(request.getParameter("id"));
+			
+			forward = RESULT;
+			
+			request.setAttribute("quizzes", QuizDAO.getAnsweredQuiz(id));
+
+		}
 
 		RequestDispatcher view = request.getRequestDispatcher(forward);
 		view.forward(request, response);
@@ -135,6 +144,7 @@ public class TeacherController extends HttpServlet {
 			pw.println("window.location.href='/e-JAWI/TeacherController?action=ListTeacher';");
 			pw.println("</script>");
 		} else if (action.equalsIgnoreCase("UpdateTeacher")) {
+			
 			Integer id = Integer.parseInt(request.getParameter("id"));
 			String teacherEmail = request.getParameter("email");
 			String teacherName = request.getParameter("name");

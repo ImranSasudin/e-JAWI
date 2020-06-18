@@ -206,6 +206,7 @@ public class QuizDAO {
 
 	public static List<Quiz> getAnsweredQuiz(Integer studentid) {
 		List<Quiz> quizzes = new ArrayList<Quiz>();
+		System.out.println(studentid);
 		
 		try {
 			currentCon = ConnectionManager.getConnection();
@@ -217,12 +218,14 @@ public class QuizDAO {
 
 			ResultSet rs = ps.executeQuery();
 
-			if (rs.next()) {
+			while (rs.next()) {
 				Quiz quiz = new Quiz();
+				
 				quiz.setQuizName(rs.getString(1));
 				quiz.setCorrectanswer(rs.getInt(2));
 				quiz.setTeacherName(rs.getString(3));
 				quiz.setCount(rs.getInt(4));
+				
 				quizzes.add(quiz);
 
 			}

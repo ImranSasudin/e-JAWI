@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import DAO.ParentDAO;
+import DAO.QuizDAO;
 import Model.Parent;
 
 /**
@@ -22,65 +23,91 @@ import Model.Parent;
 @WebServlet("/ParentController")
 public class ParentController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private String VIEW ="/parent/viewParent.jsp";
-    private static String UPDATE = "/parent/updateParent.jsp";
-    //private static String UPDATEPASS = "/parent/updatePass.jsp";
-    private static String SEARCH = "/parent/createParent.jsp";
-    
-    String forward;
+	private String VIEW = "/parent/viewParent.jsp";
+	private static String UPDATE = "/parent/updateParent.jsp";
+	// private static String UPDATEPASS = "/parent/updatePass.jsp";
+	private static String SEARCH = "/parent/createParent.jsp";
+	private static String LIST = "/parent/listParent.jsp";
+	private static String CHILDREN_LIST = "/parent/listStudent.jsp";
+	private static String RESULT = "/parent/listResult.jsp";
+
+	String forward;
 	private ParentDAO dao;
 	Parent parent = new Parent();
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ParentController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String action = request.getParameter("action");
-		
-		if(action.equalsIgnoreCase("ViewAccount")) {
-			String email = request.getParameter("email");
-			parent = dao.getParentByEmail(email);
-			request.setAttribute("parent", parent);
-			forward = VIEW;
-		}
-		else if(action.equalsIgnoreCase("updateAccount")) {
-			String email = request.getParameter("email");
-			parent = dao.getParentByEmail(email);
-			request.setAttribute("parent", parent);
-			forward = UPDATE;
-		}
-		RequestDispatcher view = request.getRequestDispatcher(forward);
-        view.forward(request, response);
+	public ParentController() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String action = request.getParameter("action");
-		
+
+		if (action.equalsIgnoreCase("ViewAccount")) {
+			String email = request.getParameter("email");
+			parent = ParentDAO.getParentByEmail(email);
+			request.setAttribute("parent", parent);
+			forward = VIEW;
+		} else if (action.equalsIgnoreCase("updateAccount")) {
+			String id = request.getParameter("id");
+			parent = ParentDAO.getParentByEmail(id);
+			request.setAttribute("parent", parent);
+			forward = UPDATE;
+		} else if (action.equalsIgnoreCase("listparents")) {
+
+			request.setAttribute("parents", ParentDAO.getAllParent());
+			forward = LIST;
+		} else if (action.equalsIgnoreCase("childrenlist")) {
+			
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
+
+			request.setAttribute("students", ParentDAO.getAllChildren(id));
+			forward = CHILDREN_LIST;
+		}
+		else if (action.equalsIgnoreCase("viewresult")) {
+			Integer id = Integer.parseInt(request.getParameter("id"));
+			
+			forward = RESULT;
+			
+			request.setAttribute("quizzes", QuizDAO.getAnsweredQuiz(id));
+
+		}
+		RequestDispatcher view = request.getRequestDispatcher(forward);
+		view.forward(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String action = request.getParameter("action");
+
 		if (action.equalsIgnoreCase("Register")) {
 			String parentEmail = request.getParameter("email");
 			String parentPassword = request.getParameter("password");
 			String parentName = request.getParameter("name");
 			String parentAddress = request.getParameter("address");
 			String parentPhone = request.getParameter("phone");
-			
+
 			parent.setParentEmail(parentEmail);
 			parent.setParentPassword(parentPassword);
 			parent.setParentName(parentName);
 			parent.setParentAddress(parentAddress);
 			parent.setParentPhone(parentPhone);
-			
+
 			try {
 				ParentDAO.add(parent);
 			} catch (NoSuchAlgorithmException e) {
@@ -91,32 +118,34 @@ public class ParentController extends HttpServlet {
 			PrintWriter pw = response.getWriter();
 			pw.println("<script>");
 			pw.println("alert('New Parent Registered');");
-//			pw.println("window.location.href='/e-JAWI/ParentController?action=ListParents';");
+			pw.println("window.location.href='/e-JAWI/ParentController?action=ListParents';");
 			pw.println("</script>");
-		}
-		else if (action.equalsIgnoreCase("UpdateParent")) {
+		} else if (action.equalsIgnoreCase("UpdateParent")) {
+
+			Integer id = Integer.parseInt(request.getParameter("id"));
 			String parentEmail = request.getParameter("email");
 			String parentName = request.getParameter("name");
 			String parentAddress = request.getParameter("address");
 			String parentPhone = request.getParameter("phone");
-			
+
+			parent.setId(id);
 			parent.setParentEmail(parentEmail);
 			parent.setParentName(parentName);
 			parent.setParentAddress(parentAddress);
 			parent.setParentPhone(parentPhone);
-			
+
 			try {
 				ParentDAO.updateAccount(parent);
 			} catch (NoSuchAlgorithmException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			response.setContentType("text/html");
 			PrintWriter pw = response.getWriter();
 			pw.println("<script>");
 			pw.println("alert('Parent Updated');");
-			pw.println("window.location.href='/e-JAWI/ParentController?action=ViewAccount&email="+ parentEmail +"';");
+			pw.println("window.location.href='/e-JAWI/ParentController?action=ListParents';");
 			pw.println("</script>");
 		}
 	}

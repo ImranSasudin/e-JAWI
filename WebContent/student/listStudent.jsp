@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>Quiz</title>
+<title>Students</title>
 <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no'
 	name='viewport' />
 <link rel="icon" href="/e-JAWI/assets/img/icon.ico" type="image/x-icon" />
@@ -28,26 +28,27 @@
 		}
 	});
 </script>
-
+<link rel="stylesheet" href="/e-JAWI/assets/css/select2.min.css">
 <!-- CSS Files -->
 <link rel="stylesheet" href="/e-JAWI/assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="/e-JAWI/assets/css/azzara.min.css">
 
 <!-- CSS Just for demo purpose, don't include it in your project -->
 <link rel="stylesheet" href="/e-JAWI/assets/css/demo.css">
+
 </head>
-<body data-background-color="bg3" >
+<body data-background-color="bg3">
 	<div class="wrapper">
 		<!--
 			Tip 1: You can change the background color of the main header using: data-background-color="blue | purple | light-blue | green | orange | red"
 		-->
 		<div class="main-header" data-background-color="light-blue">
-			<jsp:include page="../StudentHeader.jsp" />
+			<jsp:include page="../AdminHeader.jsp" />
 		</div>
 
 		<!-- Sidebar -->
 		<div class="sidebar">
-			<jsp:include page="../StudentSidebar.jsp" />
+			<jsp:include page="../AdminSidebar.jsp" />
 		</div>
 		<!-- End Sidebar -->
 
@@ -55,51 +56,147 @@
 			<div class="content">
 				<div class="page-inner">
 					<div class="page-header">
-						<h4 class="page-title">Quizzes</h4>
+						<h4 class="page-title">Students</h4>
 						<ul class="breadcrumbs">
 							<li class="nav-home"><a href="#"> <i
 									class="flaticon-home"></i>
 							</a></li>
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
-							<li class="nav-item"><a href="#">Quiz</a></li>
+							<li class="nav-item"><a href="#">Users</a></li>
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
-							<li class="nav-item"><a href="#">Result</a></li>
+							<li class="nav-item"><a href="#">Student</a></li>
 						</ul>
 					</div>
 					<div class="row">
 
-						<div class="col-md-7">
+						<div class="col-md-10">
+							<button class="btn btn-primary btn-round ml-auto"
+								data-toggle="modal" data-target="#addRowModal">
+								<i class="fa fa-plus"></i> Add Student
+							</button>
+							<br> <br>
 							<div class="card">
 								<div class="card-header">
 									<div class="d-flex align-items-center">
-										<h4 class="card-title">List Answered Quizzes</h4>
-
+										<h4 class="card-title">List Students</h4>
 									</div>
 								</div>
 								<div class="card-body">
+
+									<!-- Modal -->
+									<div class="modal fade" id="addRowModal" tabindex="-1"
+										role="dialog" aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<form action="StudentController" method="post">
+													<div class="modal-header no-bd">
+														<h5 class="modal-title">
+															<span class="fw-mediumbold"> Add</span> <span
+																class="fw-light"> Student </span>
+														</h5>
+														<button type="button" class="close" data-dismiss="modal"
+															aria-label="Close">
+															<span aria-hidden="true">&times;</span>
+														</button>
+													</div>
+													<div class="modal-body">
+														<!-- <p class="small">Create a new row using this form, make
+														sure you fill them all</p> -->
+
+														<div class="row">
+															<div class="col-sm-12">
+																<div class="form-group form-group-default">
+																	<label>Email</label> <input type="email" required
+																		class="form-control" name="email" placeholder="">
+																</div>
+																<div class="form-group form-group-default">
+																	<label>Name</label> <input type="text" required
+																		class="form-control" name="name" placeholder="">
+																</div>
+																<div class="form-group form-group-default">
+																	<label>Password</label> <input type="password" required
+																		class="form-control" name="password" placeholder="">
+																</div>
+																<div class="form-group form-group-default">
+																	<label>Address</label>
+																	<textarea class="form-control" name="address"
+																		placeholder=""></textarea>
+																</div>
+																<div class="form-group form-group-default">
+																	<label>Phone</label> <input type="number" required
+																		class="form-control" name="phone" placeholder="">
+																</div>
+																<div class="form-group form-group-default select2-input">
+																	<label>Parent</label><select required class="form-control" style="width: 100%"
+																		id="basic" name="parent">
+																		<option selected disabled value="">-- Parent --</option>
+																		<c:forEach var="parent" items="${parents}">
+																		<option value="${parent.id }">${parent.parentName } (${parent.parentEmail })</option>
+																		</c:forEach>
+																	</select>
+																	</div>
+															</div>
+														</div>
+
+													</div>
+													<div class="modal-footer no-bd">
+														<button type="submit" id="addRowButton" name="action"
+															value="Register" class="btn btn-primary">Add</button>
+														<button type="button" class="btn btn-danger"
+															data-dismiss="modal">Close</button>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+
 									<div class="table-responsive">
 										<table id="add-row"
 											class="display table table-striped table-hover">
 											<thead>
 												<tr>
-													<th>Quiz Name</th>
-													<th>Created By</th>
-													<th class="text-center">Result</th>
+													<th>Email</th>
+													<th>Name</th>
+													<th>Parent</th>
+													<th>Address</th>
+													<th>Phone</th>
+													<th style="width: 10%">Action</th>
 												</tr>
 											</thead>
 											<tfoot>
 												<tr>
-													<th>Quiz Name</th>
-													<th>Created By</th>
-													<th class="text-center">Result</th>
+													<th>Email</th>
+													<th>Name</th>
+													<th>Parent</th>
+													<th>Address</th>
+													<th>Phone</th>
+													<th>Action</th>
 												</tr>
 											</tfoot>
 											<tbody>
-												<c:forEach var="quiz" items="${quizzes}">
+												<c:forEach var="student" items="${students}">
 													<tr>
-														<td><c:out value="${quiz.quizName}" /></td>
-														<td><c:out value="${quiz.teacherName}" /></td>
-														<td class="text-center"><c:out value="${quiz.correctanswer}" />/<c:out value="${quiz.count}" /> (<c:out value="${quiz.correctanswer/quiz.count * 100}" />%)</td>
+														<td><c:out value="${student.studentEmail}" /></td>
+														<td><c:out value="${student.studentName}" /></td>
+														<td><c:out value="${student.parentName}" /></td>
+														<td><c:out value="${student.studentAddress}" /></td>
+														<td><c:out value="${student.studentPhone}" /></td>
+														<td>
+															<div class="form-button-action">
+																<a
+																	href="StudentController?action=updateAccount&id=<c:out value="${student.studentID}" />"
+																	data-toggle="tooltip" title=""
+																	class="btn btn-link btn-primary btn-lg"
+																	data-original-title="Edit"> <i class="fa fa-edit"></i>
+																</a>
+																<a
+																	href="TeacherController?action=viewResult&id=<c:out value="${student.studentID}" />"
+																	data-toggle="tooltip" title=""
+																	class="btn btn-link btn-primary btn-lg"
+																	data-original-title="View Result"> <i class="fas fa-copy"></i>
+																</a>
+															</div>
+														</td>
 													</tr>
 												</c:forEach>
 											</tbody>
@@ -166,14 +263,22 @@
 	<!-- Azzara JS -->
 	<script src="/e-JAWI/assets/js/ready.min.js"></script>
 
+	<script src="/e-JAWI/assets/js/select2.full.min.js"></script>
+
 	<script>
-		$('#quizzes').addClass("active");
-		$('#quizzes').addClass("submenu");
-		$('#quiz').addClass("show");
-		$('#result').addClass("active");
+		$('#User').addClass("active");
+		$('#User').addClass("submenu");
+		$('#user').addClass("show");
+		$('#Student').addClass("active");
+
 		$(document)
 				.ready(
 						function() {
+							$('#basic').select2({
+								theme : "bootstrap",
+								dropdownParent: $('#addRowModal')
+							});
+
 							$('#basic-datatables').DataTable({});
 
 							$('#multi-filter-select')
@@ -234,9 +339,13 @@
 							$('#add-row').DataTable({
 								"pageLength" : 5,
 								"columnDefs" : [ {
-									"width" : "17%",
-									"targets" : 2
-								} ]
+									"width" : "15%",
+									"targets" : 3,
+								}, {
+									"width" : "10%",
+									"targets" : 4
+								} ],
+
 							});
 						});
 	</script>

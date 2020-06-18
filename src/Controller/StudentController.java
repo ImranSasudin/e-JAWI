@@ -3,6 +3,7 @@ package Controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -13,8 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import DAO.ParentDAO;
 import DAO.QuizDAO;
 import DAO.StudentDAO;
+import DAO.TeacherDAO;
+import Model.Quiz;
 import Model.Student;
 
 /**
@@ -28,6 +32,7 @@ public class StudentController extends HttpServlet {
     //private static String UPDATEPASS = "/student/updatePass.jsp";
     private static String SEARCH = "/student/createStudent.jsp";
     private static String RESULT = "/student/listResult.jsp";
+    private static String LIST = "/student/listStudent.jsp";
    
 	String forward;
 	private StudentDAO dao;
@@ -47,25 +52,34 @@ public class StudentController extends HttpServlet {
 		String action = request.getParameter("action");
 		
 		if(action.equalsIgnoreCase("ViewAccount")) {
-			String email = request.getParameter("email");
-			student = dao.getStudentByEmail(email);
+			Integer id = Integer.parseInt(request.getParameter("id"));
+			student = StudentDAO.getStudentByEmail(id);
 			request.setAttribute("student", student);
 			forward = VIEW;
 		}
 		else if(action.equalsIgnoreCase("updateAccount")) {
-			String email = request.getParameter("email");
-			student = dao.getStudentByEmail(email);
+			Integer id = Integer.parseInt(request.getParameter("id"));
+			student = StudentDAO.getStudentByEmail(id);
+			request.setAttribute("parents", ParentDAO.getAllParent());
 			request.setAttribute("student", student);
 			forward = UPDATE;
 		}
 		else if (action.equalsIgnoreCase("ListQuiz")) {
 			HttpSession session = request.getSession(true);
 			Integer id = (Integer) session.getAttribute("currentSessionUserID");
-			
+			System.out.println(id);
 			forward = RESULT;
+			
 			
 			request.setAttribute("quizzes", QuizDAO.getAnsweredQuiz(id));
 
+		}
+		else if (action.equalsIgnoreCase("ListStudent")) {
+			
+			request.setAttribute("students", StudentDAO.getAllStudent());
+			request.setAttribute("parents", ParentDAO.getAllParent());
+			forward = LIST;
+			
 		}
 		RequestDispatcher view = request.getRequestDispatcher(forward);
         view.forward(request, response);
@@ -80,12 +94,14 @@ public class StudentController extends HttpServlet {
 		String action = request.getParameter("action");
 		
 		if (action.equalsIgnoreCase("Register")) {
+			Integer parentID = Integer.parseInt(request.getParameter("parent"));
 			String studentEmail = request.getParameter("email");
 			String studentPassword = request.getParameter("password");
 			String studentName = request.getParameter("name");
 			String studentAddress = request.getParameter("address");
 			String studentPhone = request.getParameter("phone");
 			
+			student.setParentID(parentID);
 			student.setStudentEmail(studentEmail);
 			student.setStudentPassword(studentPassword);
 			student.setStudentName(studentName);
@@ -102,16 +118,20 @@ public class StudentController extends HttpServlet {
 			PrintWriter pw = response.getWriter();
 			pw.println("<script>");
 			pw.println("alert('New Student Registered');");
-//			pw.println("window.location.href='/e-JAWI/StudentController?action=ListStudents';");
+			pw.println("window.location.href='/e-JAWI/StudentController?action=ListStudent';");
 			pw.println("</script>");
 		}
 		
 		else if (action.equalsIgnoreCase("UpdateStudent")) {
+			Integer id = Integer.parseInt(request.getParameter("id"));
+			Integer parentID = Integer.parseInt(request.getParameter("parent"));
 			String studentEmail = request.getParameter("email");
 			String studentName = request.getParameter("name");
 			String studentAddress = request.getParameter("address");
 			String studentPhone = request.getParameter("phone");
 			
+			student.setParentID(parentID);
+			student.setStudentID(id);
 			student.setStudentEmail(studentEmail);
 			student.setStudentName(studentName);
 			student.setStudentAddress(studentAddress);
@@ -128,7 +148,7 @@ public class StudentController extends HttpServlet {
 			PrintWriter pw = response.getWriter();
 			pw.println("<script>");
 			pw.println("alert('Student Updated');");
-			pw.println("window.location.href='/e-JAWI/StudentController?action=ViewAccount&email="+ studentEmail +"';");
+			pw.println("window.location.href='/e-JAWI/StudentController?action=ListStudent';");
 			pw.println("</script>");
 		}
 			

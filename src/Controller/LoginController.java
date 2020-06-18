@@ -88,6 +88,8 @@ public class LoginController extends HttpServlet {
         				HttpSession session = request.getSession(true);
         				session.setAttribute("currentSessionUser", parent.getParentEmail());
         				session.setAttribute("currentSessionUserName", parent.getParentName());
+        				session.setAttribute("currentSessionUserID", parent.getId());
+        				session.setAttribute("currentSessionUserRole", "Parent");
         				response.setContentType("text/html");
         			      PrintWriter pw = response.getWriter();
         			      pw.println("<script>");

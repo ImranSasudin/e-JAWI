@@ -2,9 +2,9 @@ package Model;
 
 public class Student {
 
-	String studentEmail, studentPassword, studentName, studentAddress, studentPhone;
+	String studentEmail, studentPassword, studentName, studentAddress, studentPhone, parentName, parentEmail;
 	boolean valid;
-	Integer studentID;
+	Integer studentID, parentID;
 	
 	public Student() {
 		super();
@@ -24,6 +24,30 @@ public class Student {
 	}
 	
 	
+
+	public String getParentEmail() {
+		return parentEmail;
+	}
+
+	public void setParentEmail(String parentEmail) {
+		this.parentEmail = parentEmail;
+	}
+
+	public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
+
+	public Integer getParentID() {
+		return parentID;
+	}
+
+	public void setParentID(Integer parentID) {
+		this.parentID = parentID;
+	}
 
 	public Integer getStudentID() {
 		return studentID;

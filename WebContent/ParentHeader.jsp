@@ -1,7 +1,6 @@
 <%
 	String email = (String) session.getAttribute("currentSessionUser");
 	String name = (String) session.getAttribute("currentSessionUserName");
-	String role = (String) session.getAttribute("currentSessionUserRole");
 %>
 <!-- Logo Header -->
 <div class="logo-header">
@@ -52,14 +51,14 @@
 							<div class="u-text">
 								<h4><%=name %></h4>
 								<p class="text-muted"><%=email %></p>
-								<a href="/e-JAWI/TeacherController?action=viewProfile" class="btn btn-rounded btn-danger btn-sm">View
+								<a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View
 									Profile</a>
 							</div>
 						</div>
 					</li>
 					<li>
 						<div class="dropdown-divider"></div> 
-						<a class="dropdown-item" href="/e-JAWI/TeacherController?action=viewProfile">My Profile</a> 
+						<a class="dropdown-item" href="#">My Profile</a> 
 						<div class="dropdown-divider"></div> 
 						<a class="dropdown-item" href="/e-JAWI/LoginController?action=Logout">Logout</a>
 					</li>

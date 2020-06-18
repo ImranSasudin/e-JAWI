@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>Student</title>
+<title>Notes</title>
 <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no'
 	name='viewport' />
 <link rel="icon" href="/e-JAWI/assets/img/icon.ico" type="image/x-icon" />
@@ -29,7 +29,7 @@
 		}
 	});
 </script>
-<link rel="stylesheet" href="/e-JAWI/assets/css/select2.min.css">
+
 <!-- CSS Files -->
 <link rel="stylesheet" href="/e-JAWI/assets/css/bootstrap.min.css">
 <link rel="stylesheet" href="/e-JAWI/assets/css/azzara.min.css">
@@ -43,12 +43,12 @@
 			Tip 1: You can change the background color of the main header using: data-background-color="blue | purple | light-blue | green | orange | red"
 		-->
 		<div class="main-header" data-background-color="light-blue">
-			<jsp:include page="../AdminHeader.jsp" />
+			<jsp:include page="../TeacherHeader.jsp" />
 		</div>
 
 		<!-- Sidebar -->
 		<div class="sidebar">
-			<jsp:include page="../AdminSidebar.jsp" />
+			<jsp:include page="../TeacherSidebar.jsp" />
 		</div>
 		<!-- End Sidebar -->
 
@@ -56,15 +56,15 @@
 			<div class="content">
 				<div class="page-inner">
 					<div class="page-header">
-						<h4 class="page-title">Student</h4>
+						<h4 class="page-title">Notes</h4>
 						<ul class="breadcrumbs">
 							<li class="nav-home"><a href="#"> <i
 									class="flaticon-home"></i>
 							</a></li>
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
-							<li class="nav-item"><a href="#">Student</a></li>
+							<li class="nav-item"><a href="#">Notes</a></li>
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
-							<li class="nav-item"><a href="#">Update</a></li>
+							<li class="nav-item"><a href="#">Add</a></li>
 						</ul>
 					</div>
 					<div class="row">
@@ -72,57 +72,32 @@
 							<div class="card">
 								<div class="card-header">
 									<div class="d-flex align-items-center">
-										<h4 class="card-title">Update Student</h4>
+										<h4 class="card-title">Add Note</h4>
 									</div>
 								</div>
 								<div class="card-body">
-									<form action="/e-JAWI/StudentController" method="post">
-										<input type="hidden" name="id"
-											value="<c:out value="${student.studentID}"/>" />
+									<form action="/e-JAWI/NotesController" method="post">
 										<div class="row mt-3">
 											<div class="col-md-12">
 												<div class="form-group form-group-default">
-													<label>Email</label> <input id="" type="email" required
-														class="form-control" name="email"
-														value="<c:out value="${student.studentEmail }"/>"
-														placeholder="">
+													<label>Title</label> <input type="text"
+														class="form-control" name="notesTitle" placeholder="Name"
+														value="">
 												</div>
+											</div>
+										</div>
+										<div class="row mt-3">
+											<div class="col-md-12">
 												<div class="form-group form-group-default">
-													<label>Name</label> <input id="" type="text" required
-														class="form-control" name="name"
-														value="<c:out value="${student.studentName }"/>"
-														placeholder="">
-												</div>
-												<div class="form-group form-group-default">
-													<label>Address</label>
-													<textarea id="" class="form-control" name="address"
-														placeholder=""><c:out
-															value="${student.studentAddress }" /></textarea>
-												</div>
-												<div class="form-group form-group-default">
-													<label>Phone</label> <input id="" type="number" required
-														class="form-control" name="phone"
-														value="<c:out value="${student.studentPhone }"/>"
-														placeholder="">
-												</div>
-												<div class="form-group form-group-default select2-input">
-													<label>Parent</label><select required class="form-control"
-														style="width: 100%" id="basic" name="parent">
-														<option selected hidden="hidden"
-															value="<c:out value="${student.parentID }"/>"><c:out
-																value="${student.parentName }" /> (${student.parentEmail })</option>
-														<c:forEach var="parent" items="${parents}">
-															<option value="${parent.id }">${parent.parentName }
-																(${parent.parentEmail })</option>
-														</c:forEach>
-													</select>
+													<label>Content</label>
+													<textarea class="form-control" id="notesContent"
+														name="notesContent"></textarea>
 												</div>
 											</div>
 										</div>
 										<div class="text-right mt-3 mb-3">
 											<a class="btn btn-primary" href="javascript:history.back()">Back</a>
-											<button class="btn btn-success" name="action"
-												value="UpdateStudent">Save</button>
+											<button class="btn btn-success" name="action" value="Add">Save</button>
 										</div>
 									</form>
 								</div>
@@ -186,17 +161,8 @@
 	<!-- Azzara JS -->
 	<script src="/e-JAWI/assets/js/ready.min.js"></script>
 	<script src="https://cdn.ckeditor.com/4.14.0/full-all/ckeditor.js"></script>
-	<script src="/e-JAWI/assets/js/select2.full.min.js"></script>
 	<script>
-		$('#User').addClass("active");
-		$('#User').addClass("submenu");
-		$('#user').addClass("show");
-		$('#Student').addClass("active");
-		$(document).ready(function() {
-			$('#basic').select2({
-				theme : "bootstrap",
-			});
-		});
+		$('#notes').addClass("active");
 		CKEDITOR.plugins.addExternal('exportpdf',
 				'/e-JAWI/notes/node_modules/ckeditor4/plugins/exportpdf/');
 		CKEDITOR
