@@ -173,13 +173,13 @@ public class TeacherDAO {
 	}
 
 	// get user by email
-	public static Teacher getTeacherByEmail(String id) {
+	public static Teacher getTeacherByEmail(Integer id) {
 		Teacher teacher = new Teacher();
 		try {
 			currentCon = ConnectionManager.getConnection();
 			ps = currentCon.prepareStatement("select * from teachers where id=?");
 
-			ps.setString(1, id);
+			ps.setInt(1, id);
 
 			ResultSet rs = ps.executeQuery();
 

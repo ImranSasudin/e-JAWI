@@ -48,20 +48,32 @@
 			Tip 1: You can change the background color of the main header using: data-background-color="blue | purple | light-blue | green | orange | red"
 		-->
 		<div class="main-header" data-background-color="light-blue">
-		<% if(role.equalsIgnoreCase("Teacher")){ %>
+			<%
+				if (role.equalsIgnoreCase("Teacher")) {
+			%>
 			<jsp:include page="../TeacherHeader.jsp" />
-		<% } else if(role.equalsIgnoreCase("Admin")){  %>
+			<%
+				} else if (role.equalsIgnoreCase("Admin")) {
+			%>
 			<jsp:include page="../AdminHeader.jsp" />
-		<% } %>
+			<%
+				}
+			%>
 		</div>
 
 		<!-- Sidebar -->
 		<div class="sidebar">
-			<% if(role.equalsIgnoreCase("Teacher")){ %>
-				<jsp:include page="../TeacherSidebar.jsp" />
-			<% } else if(role.equalsIgnoreCase("Admin")){  %>
-				<jsp:include page="../AdminSidebar.jsp" />
-			<% } %>
+			<%
+				if (role.equalsIgnoreCase("Teacher")) {
+			%>
+			<jsp:include page="../TeacherSidebar.jsp" />
+			<%
+				} else if (role.equalsIgnoreCase("Admin")) {
+			%>
+			<jsp:include page="../AdminSidebar.jsp" />
+			<%
+				}
+			%>
 		</div>
 		<!-- End Sidebar -->
 
@@ -77,7 +89,7 @@
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
 							<li class="nav-item"><a href="#">Account</a></li>
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
-							<li class="nav-item"><a href="#">View</a></li>
+							<li class="nav-item"><a href="#">Update</a></li>
 						</ul>
 					</div>
 					<div class="row">
@@ -85,34 +97,30 @@
 							<div class="card">
 								<div class="card-header">
 									<div class="d-flex align-items-center">
-										<h4 class="card-title">View Account</h4>
+										<h4 class="card-title">Update Account</h4>
 									</div>
 								</div>
 								<div class="card-body">
+									<form action="TeacherController" method="post">
 										<div class="row mt-3">
 											<div class="col-md-12">
 												<div class="form-group ">
-													<label>Email</label> <input type="text" disabled
+													<label>Email</label> <input type="text"
 														class="form-control" name="email" placeholder="Name"
 														value="<c:out value="${teacher.teacherEmail }"/>">
 												</div>
 												<div class="form-group ">
-													<button 
-														class="btn btn-success"
-														value="">Update Password</button>
-												</div>
-												<div class="form-group ">
-													<label>Name</label> <input type="text" disabled
-														class="form-control" name="name"
+													<label>Name</label> <input type="text" class="form-control"
+														name="name"
 														value="<c:out value="${teacher.teacherName }"/>">
 												</div>
 												<div class="form-group ">
-													<label>Address</label> <input type="text" disabled
-														class="form-control" name="address"
-														value="<c:out value="${teacher.teacherAddress }"/>">
+													<label>Address</label>
+													<textarea class="form-control" name="address"><c:out
+															value="${teacher.teacherAddress }" /></textarea>
 												</div>
 												<div class="form-group ">
-													<label>Phone</label> <input type="text" disabled
+													<label>Phone</label> <input type="text"
 														class="form-control" name="phone"
 														value="<c:out value="${teacher.teacherPhone }"/>">
 												</div>
@@ -120,8 +128,9 @@
 										</div>
 										<div class="text-right mt-3 mb-3">
 											<a class="btn btn-primary" href="javascript:history.back()">Back</a>
-											<a class="btn btn-success" href="/e-JAWI/TeacherController?action=updateAccount">Update</a>
+											<button class="btn btn-success" name="action" value="updateAccount">Save</button>
 										</div>
+									</form>
 								</div>
 							</div>
 						</div>

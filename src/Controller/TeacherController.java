@@ -24,8 +24,9 @@ import Model.Teacher;
 @WebServlet("/TeacherController")
 public class TeacherController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private String VIEW = "/teacher/viewTeacher.jsp";
+	private String VIEW = "/teacher/viewAccount.jsp";
 	private static String UPDATE = "/teacher/updateTeacher.jsp";
+	private static String UPDATE_ACCOUNT = "/teacher/updateAccount.jsp";
 	private static String UPDATEPASS = "/teacher/updatePass.jsp";
 	private static String SEARCH = "/teacher/createTeacher.jsp";
 	private static String LIST_NOTES = "/teacher/listNotes.jsp";
@@ -60,44 +61,45 @@ public class TeacherController extends HttpServlet {
 			forward = LIST_NOTES;
 			request.setAttribute("notes", NotesDAO.getAllNotesById(id));
 		} else if (action.equalsIgnoreCase("ListQuiz")) {
-			
+
 			HttpSession session = request.getSession(true);
 			Integer id = (Integer) session.getAttribute("currentSessionUserID");
 			forward = LIST_QUIZ;
 			request.setAttribute("quizzes", QuizDAO.getAllQuizById(id));
 
-		} else if (action.equalsIgnoreCase("ViewAccount")) {
-			
-			String email = request.getParameter("email");
-			teacher = TeacherDAO.getTeacherByEmail(email);
-			request.setAttribute("teacher", teacher);
-			forward = VIEW;
-			
-		} else if (action.equalsIgnoreCase("updateAccount")) {
-			
-			String id = request.getParameter("id");
+		} else if (action.equalsIgnoreCase("ViewProfile")) {
+
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
 			teacher = TeacherDAO.getTeacherByEmail(id);
 			request.setAttribute("teacher", teacher);
-			forward = UPDATE;
-			
-		} else if (action.equalsIgnoreCase("updatePass")) {
-			
-			forward = UPDATEPASS;
-			String email = request.getParameter("email");
-			Teacher teacher = TeacherDAO.getTeacherByEmail(email);
+			forward = VIEW;
+
+		} else if (action.equalsIgnoreCase("updateAccount")) {
+
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
+			teacher = TeacherDAO.getTeacherByEmail(id);
 			request.setAttribute("teacher", teacher);
-			
+			forward = UPDATE_ACCOUNT;
+
+		} else if (action.equalsIgnoreCase("updatePass")) {
+
+			forward = UPDATEPASS;
+			Integer id = Integer.parseInt(request.getParameter("id"));
+			Teacher teacher = TeacherDAO.getTeacherByEmail(id);
+			request.setAttribute("teacher", teacher);
+
 		} else if (action.equalsIgnoreCase("ListTeacher")) {
-			
+
 			request.setAttribute("teachers", TeacherDAO.getAllTeacher());
 			forward = LIST;
-			
-		}
-		else if (action.equalsIgnoreCase("viewresult")) {
+
+		} else if (action.equalsIgnoreCase("viewresult")) {
 			Integer id = Integer.parseInt(request.getParameter("id"));
-			
+
 			forward = RESULT;
-			
+
 			request.setAttribute("quizzes", QuizDAO.getAnsweredQuiz(id));
 
 		}
@@ -144,7 +146,7 @@ public class TeacherController extends HttpServlet {
 			pw.println("window.location.href='/e-JAWI/TeacherController?action=ListTeacher';");
 			pw.println("</script>");
 		} else if (action.equalsIgnoreCase("UpdateTeacher")) {
-			
+
 			Integer id = Integer.parseInt(request.getParameter("id"));
 			String teacherEmail = request.getParameter("email");
 			String teacherName = request.getParameter("name");
@@ -169,6 +171,34 @@ public class TeacherController extends HttpServlet {
 			pw.println("<script>");
 			pw.println("alert('Teacher Updated');");
 			pw.println("window.location.href='/e-JAWI/TeacherController?action=ListTeacher';");
+			pw.println("</script>");
+		} else if (action.equalsIgnoreCase("updateAccount")) {
+
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
+			String teacherEmail = request.getParameter("email");
+			String teacherName = request.getParameter("name");
+			String teacherAddress = request.getParameter("address");
+			String teacherPhone = request.getParameter("phone");
+
+			teacher.setId(id);
+			teacher.setTeacherEmail(teacherEmail);
+			teacher.setTeacherName(teacherName);
+			teacher.setTeacherAddress(teacherAddress);
+			teacher.setTeacherPhone(teacherPhone);
+
+			try {
+				TeacherDAO.updateAccount(teacher);
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			response.setContentType("text/html");
+			PrintWriter pw = response.getWriter();
+			pw.println("<script>");
+			pw.println("alert('Account Updated');");
+			pw.println("window.location.href='/e-JAWI/TeacherController?action=ViewProfile';");
 			pw.println("</script>");
 		}
 
