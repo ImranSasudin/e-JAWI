@@ -49,7 +49,7 @@
 		</div>
 		<!-- End Sidebar -->
 
-		<div class="main-panel">
+		 <div class="main-panel">
 			<div class="content">
 				<div class="page-inner">
 					<div class="page-header">
@@ -71,7 +71,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
+					<!--<div class="row">
 						<div class="col-sm-6 col-md-3">
 							<div class="card card-stats card-round">
 								<div class="card-body ">
@@ -617,9 +617,9 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div>-->
 
-		</div>
+		</div> 
 	</div>
 	<!--   Core JS Files   -->
 	<script src="/e-JAWI/assets/js/core/jquery.3.2.1.min.js"></script>
