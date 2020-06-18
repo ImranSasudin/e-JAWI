@@ -24,7 +24,7 @@
 									<li><a href="/e-JAWI/TeacherController?action=viewProfile"> <span class="link-collapse">My
 												Profile</span>
 									</a></li>
-									<li><a href="/e-JAWI/TeacherController?action=editProfile"> <span class="link-collapse">Edit
+									<li><a href="/e-JAWI/TeacherController?action=updateAccount"> <span class="link-collapse">Edit
 												Profile</span>
 									</a></li>
 									
