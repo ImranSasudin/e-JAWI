@@ -81,7 +81,7 @@
 					</div>
 					<div class="row">
 
-						<div class="col-md-5">
+						<div class="col-md-8">
 							<div class="card">
 								<div class="card-header">
 									<div class="d-flex align-items-center">

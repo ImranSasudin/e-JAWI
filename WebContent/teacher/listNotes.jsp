@@ -68,7 +68,7 @@
 					</div>
 					<div class="row">
 
-						<div class="col-md-5">
+						<div class="col-md-8">
 							<a class="btn btn-primary btn-round ml-auto"
 								href="/e-JAWI/notes/addNotes.jsp"> <i
 								class="fa fa-plus"></i> Add Note
