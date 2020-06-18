@@ -21,6 +21,7 @@ public class TeacherDAO {
 	static Statement stmt = null;
 
 	static String teacherEmail, teacherPassword, teacherName, teacherAddress, teacherPhone, teacherRole;
+	static Integer id;
 	static boolean valid;
 
 	// login
@@ -172,18 +173,19 @@ public class TeacherDAO {
 	}
 
 	// get user by email
-	public static Teacher getTeacherByEmail(String teacherEmail) {
+	public static Teacher getTeacherByEmail(String id) {
 		Teacher teacher = new Teacher();
 		try {
 			currentCon = ConnectionManager.getConnection();
-			ps = currentCon.prepareStatement("select * from teachers where teacherEmail=?");
+			ps = currentCon.prepareStatement("select * from teachers where id=?");
 
-			ps.setString(1, teacherEmail);
+			ps.setString(1, id);
 
 			ResultSet rs = ps.executeQuery();
 
 			if (rs.next()) {
 
+				teacher.setId(rs.getInt("id"));
 				teacher.setTeacherEmail(rs.getString("teacherEmail"));
 				teacher.setTeacherPassword(rs.getString("teacherPassword"));
 				teacher.setTeacherName(rs.getString("teacherName"));
@@ -230,10 +232,11 @@ public class TeacherDAO {
 		teacherName = bean.getTeacherName();
 		teacherAddress = bean.getTeacherAddress();
 		teacherPhone = bean.getTeacherPhone();
+		id = bean.getId();
 		String searchQuery = "";
 
 		searchQuery = "UPDATE teachers SET teacherName ='" + teacherName + "', teacherAddress='" + teacherAddress
-				+ "', teacherPhone='" + teacherPhone + "' WHERE teacherEmail= '" + teacherEmail + "'";
+				+ "', teacherPhone='" + teacherPhone + "' , teacherEmail= '" + teacherEmail + "'  WHERE id= '" + id + "'";
 
 		try {
 
@@ -322,6 +325,7 @@ public class TeacherDAO {
 			while (rs.next()) {
 				Teacher teacher = new Teacher();
 
+				teacher.setId(rs.getInt("id"));
 				teacher.setTeacherEmail(rs.getString("teacherEmail"));
 				teacher.setTeacherPassword(rs.getString("teacherPassword"));
 				teacher.setTeacherName(rs.getString("teacherName"));

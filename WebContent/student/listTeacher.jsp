@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>Teachers</title>
+<title>Students</title>
 <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no'
 	name='viewport' />
 <link rel="icon" href="/e-JAWI/assets/img/icon.ico" type="image/x-icon" />
@@ -55,7 +55,7 @@
 			<div class="content">
 				<div class="page-inner">
 					<div class="page-header">
-						<h4 class="page-title">Teachers</h4>
+						<h4 class="page-title">Students</h4>
 						<ul class="breadcrumbs">
 							<li class="nav-home"><a href="#"> <i
 									class="flaticon-home"></i>
@@ -63,7 +63,7 @@
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
 							<li class="nav-item"><a href="#">Users</a></li>
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
-							<li class="nav-item"><a href="#">Teacher</a></li>
+							<li class="nav-item"><a href="#">Student</a></li>
 						</ul>
 					</div>
 					<div class="row">
@@ -71,13 +71,13 @@
 						<div class="col-md-10">
 							<button class="btn btn-primary btn-round ml-auto"
 								data-toggle="modal" data-target="#addRowModal">
-								<i class="fa fa-plus"></i> Add Teacher
+								<i class="fa fa-plus"></i> Add Student
 							</button>
 							<br> <br>
 							<div class="card">
 								<div class="card-header">
 									<div class="d-flex align-items-center">
-										<h4 class="card-title">List Teachers</h4>
+										<h4 class="card-title">List Students</h4>
 
 									</div>
 								</div>
@@ -92,7 +92,7 @@
 													<div class="modal-header no-bd">
 														<h5 class="modal-title">
 															<span class="fw-mediumbold"> Add</span> <span
-																class="fw-light"> Teacher </span>
+																class="fw-light"> Student </span>
 														</h5>
 														<button type="button" class="close" data-dismiss="modal"
 															aria-label="Close">
@@ -126,15 +126,6 @@
 																	<label>Phone</label> <input id="" type="number" required
 																		class="form-control" name="phone" placeholder="">
 																</div>
-																<div class="form-group form-group-default">
-																	<label>Role</label> 
-																	<select id="" class="form-control" required
-																		name="role">
-																		<option selected disabled value="">-- Role --</option>
-																		<option value="Teacher">Teacher</option>
-																		<option value="Admin">Admin</option>
-																	</select>
-																</div>
 															</div>
 														</div>
 
@@ -159,7 +150,6 @@
 													<th>Name</th>
 													<th>Address</th>
 													<th>Phone</th>
-													<th>Role</th>
 													<th style="width: 10%">Action</th>
 												</tr>
 											</thead>
@@ -169,7 +159,6 @@
 													<th>Name</th>
 													<th>Address</th>
 													<th>Phone</th>
-													<th>Role</th>
 													<th>Action</th>
 												</tr>
 											</tfoot>
@@ -180,7 +169,6 @@
 														<td><c:out value="${teacher.teacherName}" /></td>
 														<td><c:out value="${teacher.teacherAddress}" /></td>
 														<td><c:out value="${teacher.teacherPhone}" /></td>
-														<td><c:out value="${teacher.teacherRole}" /></td>
 														<td>
 															<div class="form-button-action">
 																<a
@@ -262,7 +250,7 @@
 		$('#User').addClass("active");
 		$('#User').addClass("submenu");
 		$('#user').addClass("show");
-		$('#Teacher').addClass("active");
+		$('#Student').addClass("active");
 		$(document)
 				.ready(
 						function() {

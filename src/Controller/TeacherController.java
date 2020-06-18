@@ -74,8 +74,8 @@ public class TeacherController extends HttpServlet {
 			
 		} else if (action.equalsIgnoreCase("updateAccount")) {
 			
-			String email = request.getParameter("email");
-			teacher = TeacherDAO.getTeacherByEmail(email);
+			String id = request.getParameter("id");
+			teacher = TeacherDAO.getTeacherByEmail(id);
 			request.setAttribute("teacher", teacher);
 			forward = UPDATE;
 			
@@ -132,14 +132,16 @@ public class TeacherController extends HttpServlet {
 			PrintWriter pw = response.getWriter();
 			pw.println("<script>");
 			pw.println("alert('New Teacher Registered');");
-//			pw.println("window.location.href='/e-JAWI/TeacherController?action=ListTeachers';");
+			pw.println("window.location.href='/e-JAWI/TeacherController?action=ListTeacher';");
 			pw.println("</script>");
 		} else if (action.equalsIgnoreCase("UpdateTeacher")) {
+			Integer id = Integer.parseInt(request.getParameter("id"));
 			String teacherEmail = request.getParameter("email");
 			String teacherName = request.getParameter("name");
 			String teacherAddress = request.getParameter("address");
 			String teacherPhone = request.getParameter("phone");
 
+			teacher.setId(id);
 			teacher.setTeacherEmail(teacherEmail);
 			teacher.setTeacherName(teacherName);
 			teacher.setTeacherAddress(teacherAddress);
@@ -156,8 +158,7 @@ public class TeacherController extends HttpServlet {
 			PrintWriter pw = response.getWriter();
 			pw.println("<script>");
 			pw.println("alert('Teacher Updated');");
-			pw.println(
-					"window.location.href='/e-JAWI/TeacherController?action=ViewAccount&email=" + teacherEmail + "';");
+			pw.println("window.location.href='/e-JAWI/TeacherController?action=ListTeacher';");
 			pw.println("</script>");
 		}
 
