@@ -21,10 +21,10 @@
 
 				<div class="collapse in" id="collapseExample">
 					<ul class="nav">
-						<li><a href="#profile"> <span class="link-collapse">My
+						<li><a href="/e-JAWI/StudentController?action=viewAccount"> <span class="link-collapse">My
 									Profile</span>
 						</a></li>
-						<li><a href="#edit"> <span class="link-collapse">Edit
+						<li><a href="/e-JAWI/StudentController?action=editAccount"> <span class="link-collapse">Edit
 									Profile</span>
 						</a></li>
 					</ul>

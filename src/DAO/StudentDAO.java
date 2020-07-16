@@ -174,7 +174,8 @@ public class StudentDAO {
 		Student student = new Student();
 		try {
 			currentCon = ConnectionManager.getConnection();
-			ps = currentCon.prepareStatement("select * from students s join parents p on (s.parentid = p.id) where s.id=?");
+			ps = currentCon
+					.prepareStatement("select * from students s join parents p on (s.parentid = p.id) where s.id=?");
 
 			ps.setInt(1, id);
 
@@ -237,7 +238,35 @@ public class StudentDAO {
 		String searchQuery = "";
 
 		searchQuery = "UPDATE students SET studentName ='" + studentName + "', studentAddress='" + studentAddress
-				+ "', studentPhone='" + studentPhone + "', studentEmail ='" + studentEmail + "', parentid = '" + parentid +"' where id = '" + id +"'";
+				+ "', studentPhone='" + studentPhone + "', studentEmail ='" + studentEmail + "', parentid = '"
+				+ parentid + "' where id = '" + id + "'";
+
+		try {
+
+			currentCon = ConnectionManager.getConnection();
+			stmt = currentCon.createStatement();
+			stmt.executeUpdate(searchQuery);
+			System.out.println(searchQuery);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// update account
+	public static void updateAccountStudent(Student bean) throws NoSuchAlgorithmException {
+
+		parentid = bean.getParentID();
+		id = bean.getStudentID();
+		studentEmail = bean.getStudentEmail();
+		studentPassword = bean.getStudentPassword();
+		studentName = bean.getStudentName();
+		studentAddress = bean.getStudentAddress();
+		studentPhone = bean.getStudentPhone();
+		String searchQuery = "";
+
+		searchQuery = "UPDATE students SET studentName ='" + studentName + "', studentAddress='" + studentAddress
+				+ "', studentPhone='" + studentPhone + "', studentEmail ='" + studentEmail + "' where id = '" + id + "'";
 
 		try {
 

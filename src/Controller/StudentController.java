@@ -27,7 +27,8 @@ import Model.Student;
 @WebServlet("/StudentController")
 public class StudentController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private String VIEW ="/student/viewStudent.jsp";
+	private static String VIEW ="/student/viewAccount.jsp";
+	private static String EDIT ="/student/updateAccount.jsp";
     private static String UPDATE = "/student/updateStudent.jsp";
     //private static String UPDATEPASS = "/student/updatePass.jsp";
     private static String SEARCH = "/student/createStudent.jsp";
@@ -52,10 +53,18 @@ public class StudentController extends HttpServlet {
 		String action = request.getParameter("action");
 		
 		if(action.equalsIgnoreCase("ViewAccount")) {
-			Integer id = Integer.parseInt(request.getParameter("id"));
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
 			student = StudentDAO.getStudentByEmail(id);
 			request.setAttribute("student", student);
 			forward = VIEW;
+		}
+		else if(action.equalsIgnoreCase("editAccount")) {
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
+			student = StudentDAO.getStudentByEmail(id);
+			request.setAttribute("student", student);
+			forward = EDIT;
 		}
 		else if(action.equalsIgnoreCase("updateAccount")) {
 			Integer id = Integer.parseInt(request.getParameter("id"));
@@ -151,6 +160,35 @@ public class StudentController extends HttpServlet {
 			pw.println("window.location.href='/e-JAWI/StudentController?action=ListStudent';");
 			pw.println("</script>");
 		}
+		else if (action.equalsIgnoreCase("UpdateAccount")) {
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
+			String studentEmail = request.getParameter("email");
+			String studentName = request.getParameter("name");
+			String studentAddress = request.getParameter("address");
+			String studentPhone = request.getParameter("phone");
+			
+			student.setStudentID(id);
+			student.setStudentEmail(studentEmail);
+			student.setStudentName(studentName);
+			student.setStudentAddress(studentAddress);
+			student.setStudentPhone(studentPhone);
+			
+			try {
+				StudentDAO.updateAccountStudent(student);
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			response.setContentType("text/html");
+			PrintWriter pw = response.getWriter();
+			pw.println("<script>");
+			pw.println("alert('Student Updated');");
+			pw.println("window.location.href='/e-JAWI/StudentController?action=ViewAccount';");
+			pw.println("</script>");
+		}
+		
 			
 	
 	}
