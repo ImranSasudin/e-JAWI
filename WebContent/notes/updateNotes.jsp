@@ -84,7 +84,7 @@
 												<div class="form-group form-group-default">
 													<label>Title</label> <input type="text"
 														class="form-control" name="notesTitle" placeholder="Name"
-														value="<c:out value="${notes.notesTitle}" />">
+														value="<c:out value="${notes.notesTitle}" escapeXml="false"/>">
 												</div>
 											</div>
 										</div>

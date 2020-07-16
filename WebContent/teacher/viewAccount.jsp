@@ -97,6 +97,7 @@
 														value="<c:out value="${teacher.teacherEmail }"/>">
 												</div>
 												<div class="form-group ">
+												<label>Password</label><br>
 													<button 
 														class="btn btn-success"
 														value="">Update Password</button>

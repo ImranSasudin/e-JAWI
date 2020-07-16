@@ -196,6 +196,33 @@ public class ParentDAO {
 		return parent;
 	}
 
+	// get user by email
+	public static Parent getParentById(Integer parentId) {
+		Parent parent = new Parent();
+		try {
+			currentCon = ConnectionManager.getConnection();
+			ps = currentCon.prepareStatement("select * from parents where id=?");
+
+			ps.setInt(1, parentId);
+
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.next()) {
+
+				parent.setId(rs.getInt("id"));
+				parent.setParentEmail(rs.getString("parentEmail"));
+				parent.setParentPassword(rs.getString("parentPassword"));
+				parent.setParentName(rs.getString("parentName"));
+				parent.setParentAddress(rs.getString("parentAddress"));
+				parent.setParentPhone(rs.getString("parentPhone"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return parent;
+	}
+
 	// getallaccount
 
 	public static Parent getParent() {
@@ -338,7 +365,7 @@ public class ParentDAO {
 	}
 
 	// allteacher
-	public static List<Student> getAllChildren(Integer id ) {
+	public static List<Student> getAllChildren(Integer id) {
 		System.out.println(id);
 		List<Student> students = new ArrayList<Student>();
 
@@ -346,7 +373,7 @@ public class ParentDAO {
 			currentCon = ConnectionManager.getConnection();
 			stmt = currentCon.createStatement();
 
-			String q = "select * from parents p join students s on (s.parentid = p.id) where p.id = '"+ id +"'";
+			String q = "select * from parents p join students s on (s.parentid = p.id) where p.id = '" + id + "'";
 			ResultSet rs = stmt.executeQuery(q);
 
 			while (rs.next()) {

@@ -95,7 +95,7 @@
 										<div class="row mt-3">
 											<div class="col-md-12">
 												<div class="form-group form-group-default">
-													<h3><b>Note Title : <c:out value="${notes.notesTitle}" /></b></h3>
+													<h3><b>Note Title : <c:out value="${notes.notesTitle}" escapeXml="false"/></b></h3>
 												</div>
 											</div>
 										</div>

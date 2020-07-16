@@ -50,6 +50,9 @@ public class NotesController extends HttpServlet {
 		if (action.equalsIgnoreCase("listNotes")) {
 			forward = LIST_NOTES;
 			request.setAttribute("notes", NotesDAO.getAllNotes());
+			
+			RequestDispatcher view = request.getRequestDispatcher(forward);
+			view.forward(request, response);
 		}
 		
 		else if (action.equalsIgnoreCase("viewNotes")) {
@@ -57,6 +60,9 @@ public class NotesController extends HttpServlet {
 			int notesID = Integer.parseInt(request.getParameter("notesID"));
 			Notes notes = NotesDAO.getNotesByNotesID(notesID);
 			request.setAttribute("notes", notes);
+			
+			RequestDispatcher view = request.getRequestDispatcher(forward);
+			view.forward(request, response);
 		}
 
 		else if (action.equalsIgnoreCase("updateNotes")) {
@@ -66,6 +72,9 @@ public class NotesController extends HttpServlet {
 			Notes notes = NotesDAO.getNotesByNotesID(notesID);
 			request.setAttribute("notes", notes);
 			
+			RequestDispatcher view = request.getRequestDispatcher(forward);
+			view.forward(request, response);
+			
 		} 
 		else if (action.equalsIgnoreCase("deleteNotes")) {
 			
@@ -73,6 +82,7 @@ public class NotesController extends HttpServlet {
 			int notesID = Integer.parseInt(request.getParameter("notesID"));
 			notes.setNotesID(notesID);
 			dao.deleteNotes(notesID);
+			
 			response.setContentType("text/html");
 			PrintWriter pw = response.getWriter();
 			pw.println("<script>");
@@ -82,8 +92,7 @@ public class NotesController extends HttpServlet {
 			
 		}
 
-		RequestDispatcher view = request.getRequestDispatcher(forward);
-		view.forward(request, response);
+		
 
 	}
 

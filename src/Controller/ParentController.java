@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import DAO.ParentDAO;
 import DAO.QuizDAO;
+import DAO.TeacherDAO;
 import Model.Parent;
 
 /**
@@ -23,8 +24,9 @@ import Model.Parent;
 @WebServlet("/ParentController")
 public class ParentController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private String VIEW = "/parent/viewParent.jsp";
+	private static String VIEW = "/parent/viewAccount.jsp";
 	private static String UPDATE = "/parent/updateParent.jsp";
+	private static String UPDATE_ACCOUNT = "/parent/updateAccount.jsp";
 	// private static String UPDATEPASS = "/parent/updatePass.jsp";
 	private static String SEARCH = "/parent/createParent.jsp";
 	private static String LIST = "/parent/listParent.jsp";
@@ -53,8 +55,9 @@ public class ParentController extends HttpServlet {
 		String action = request.getParameter("action");
 
 		if (action.equalsIgnoreCase("ViewAccount")) {
-			String email = request.getParameter("email");
-			parent = ParentDAO.getParentByEmail(email);
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
+			parent = ParentDAO.getParentById(id);
 			request.setAttribute("parent", parent);
 			forward = VIEW;
 		} else if (action.equalsIgnoreCase("updateAccount")) {
@@ -80,6 +83,15 @@ public class ParentController extends HttpServlet {
 			forward = RESULT;
 			
 			request.setAttribute("quizzes", QuizDAO.getAnsweredQuiz(id));
+
+		}
+		else if (action.equalsIgnoreCase("editAccount")) {
+
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
+			parent = ParentDAO.getParentById(id);
+			request.setAttribute("parent", parent);
+			forward = UPDATE_ACCOUNT;
 
 		}
 		RequestDispatcher view = request.getRequestDispatcher(forward);
@@ -146,6 +158,36 @@ public class ParentController extends HttpServlet {
 			pw.println("<script>");
 			pw.println("alert('Parent Updated');");
 			pw.println("window.location.href='/e-JAWI/ParentController?action=ListParents';");
+			pw.println("</script>");
+		}
+		
+		else if (action.equalsIgnoreCase("UpdateAccount")) {
+
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
+			String parentEmail = request.getParameter("email");
+			String parentName = request.getParameter("name");
+			String parentAddress = request.getParameter("address");
+			String parentPhone = request.getParameter("phone");
+
+			parent.setId(id);
+			parent.setParentEmail(parentEmail);
+			parent.setParentName(parentName);
+			parent.setParentAddress(parentAddress);
+			parent.setParentPhone(parentPhone);
+
+			try {
+				ParentDAO.updateAccount(parent);
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			response.setContentType("text/html");
+			PrintWriter pw = response.getWriter();
+			pw.println("<script>");
+			pw.println("alert('Account Updated');");
+			pw.println("window.location.href='/e-JAWI/ParentController?action=ViewAccount';");
 			pw.println("</script>");
 		}
 	}

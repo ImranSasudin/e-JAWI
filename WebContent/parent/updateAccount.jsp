@@ -1,12 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%
+	String email = (String) session.getAttribute("currentSessionUser");
+	String name = (String) session.getAttribute("currentSessionUserName");
+	String role = (String) session.getAttribute("currentSessionUserRole");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>Notes</title>
+<title>Account</title>
 <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no'
 	name='viewport' />
 <link rel="icon" href="/e-JAWI/assets/img/icon.ico" type="image/x-icon" />
@@ -42,12 +48,12 @@
 			Tip 1: You can change the background color of the main header using: data-background-color="blue | purple | light-blue | green | orange | red"
 		-->
 		<div class="main-header" data-background-color="light-blue">
-			<jsp:include page="../TeacherHeader.jsp" />
+			<jsp:include page="../ParentHeader.jsp" />
 		</div>
 
 		<!-- Sidebar -->
 		<div class="sidebar">
-			<jsp:include page="../TeacherSidebar.jsp" />
+			<jsp:include page="../ParentSidebar.jsp" />
 		</div>
 		<!-- End Sidebar -->
 
@@ -55,74 +61,56 @@
 			<div class="content">
 				<div class="page-inner">
 					<div class="page-header">
-						<h4 class="page-title">Notes</h4>
+						<h4 class="page-title">Account</h4>
 						<ul class="breadcrumbs">
 							<li class="nav-home"><a href="#"> <i
 									class="flaticon-home"></i>
 							</a></li>
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
-							<li class="nav-item"><a href="#">Notes</a></li>
+							<li class="nav-item"><a href="#">Account</a></li>
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
-							<li class="nav-item"><a href="#">List</a></li>
+							<li class="nav-item"><a href="#">Update</a></li>
 						</ul>
 					</div>
 					<div class="row">
-
 						<div class="col-md-8">
-							<a class="btn btn-primary btn-round ml-auto"
-								href="/e-JAWI/notes/addNotes.jsp"> <i
-								class="fa fa-plus"></i> Add Note
-							</a> <br> <br>
 							<div class="card">
 								<div class="card-header">
 									<div class="d-flex align-items-center">
-										<h4 class="card-title">List Notes</h4>
-
+										<h4 class="card-title">Update Account</h4>
 									</div>
 								</div>
 								<div class="card-body">
-
-									<div class="table-responsive">
-										<table id="add-row"
-											class="display table table-striped table-hover">
-											<thead>
-												<tr>
-													<th>Title</th>
-													<th style="width: 10%">Action</th>
-												</tr>
-											</thead>
-											<tfoot>
-												<tr>
-													<th>Title</th>
-													<th>Action</th>
-												</tr>
-											</tfoot>
-											<tbody>
-												<c:forEach var="notes" items="${notes}">
-													<tr>
-														<td><c:out value="${notes.notesTitle}" escapeXml="false"/></td>
-														<td>
-															<div class="form-button-action">
-																<a
-																	href="NotesController?action=updateNotes&notesID=<c:out value="${notes.notesID}" />"
-																	data-toggle="tooltip" title=""
-																	class="btn btn-link btn-primary btn-lg"
-																	data-original-title="Edit Note"> <i
-																	class="fa fa-edit"></i>
-																</a> <a
-																	href="NotesController?action=deleteNotes&notesID=<c:out value="${notes.notesID}" />"
-																	data-toggle="tooltip" title="" onClick="return confirm('Confirm delete?');"
-																	class="btn btn-link btn-danger"
-																	data-original-title="Remove"> <i
-																	class="fa fa-times"></i>
-																</a>
-															</div>
-														</td>
-													</tr>
-												</c:forEach>
-											</tbody>
-										</table>
-									</div>
+									<form action="ParentController" method="post">
+										<div class="row mt-3">
+											<div class="col-md-12">
+												<div class="form-group ">
+													<label>Email</label> <input type="text"
+														class="form-control" name="email" placeholder="Name"
+														value="<c:out value="${parent.parentEmail }"/>">
+												</div>
+												<div class="form-group ">
+													<label>Name</label> <input type="text" class="form-control"
+														name="name"
+														value="<c:out value="${parent.parentName }"/>">
+												</div>
+												<div class="form-group ">
+													<label>Address</label>
+													<textarea class="form-control" name="address"><c:out
+															value="${parent.parentAddress }" /></textarea>
+												</div>
+												<div class="form-group ">
+													<label>Phone</label> <input type="text"
+														class="form-control" name="phone"
+														value="<c:out value="${parent.parentPhone }"/>">
+												</div>
+											</div>
+										</div>
+										<div class="text-right mt-3 mb-3">
+											<a class="btn btn-primary" href="javascript:history.back()">Back</a>
+											<button class="btn btn-success" name="action" value="updateAccount">Save</button>
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>
@@ -183,42 +171,31 @@
 
 	<!-- Azzara JS -->
 	<script src="/e-JAWI/assets/js/ready.min.js"></script>
-
+	<script src="https://cdn.ckeditor.com/4.14.0/full-all/ckeditor.js"></script>
 	<script>
-		$('#notes').addClass("active");
-		$(document).ready(function() {
-			$('#basic-datatables').DataTable({
-			});
+		CKEDITOR.plugins.addExternal('exportpdf',
+				'/e-JAWI/notes/node_modules/ckeditor4/plugins/exportpdf/');
+		CKEDITOR
+				.replace(
+						'notesContent',
+						{
+							skin : 'kama',
+							extraPlugins : 'embed,autoembed,placeholder,emoji',
+							width : 940,
+							height : 700,
 
-			$('#multi-filter-select').DataTable( {
-				"pageLength": 5,
-				initComplete: function () {
-					this.api().columns().every( function () {
-						var column = this;
-						var select = $('<select class="form-control"><option value=""></option></select>')
-						.appendTo( $(column.footer()).empty() )
-						.on( 'change', function () {
-							var val = $.fn.dataTable.util.escapeRegex(
-								$(this).val()
-								);
+							// Load the default contents.css file plus customizations for this sample.
 
-							column
-							.search( val ? '^'+val+'$' : '', true, false )
-							.draw();
-						} );
+							// Setup content provider. See https://ckeditor.com/docs/ckeditor4/latest/features/media_embed
+							embed_provider : '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
 
-						column.data().unique().sort().each( function ( d, j ) {
-							select.append( '<option value="'+d+'">'+d+'</option>' )
-						} );
-					} );
-				}
-			});
-
-			// Add Row
-			$('#add-row').DataTable({
-				"pageLength": 5,
-			});
-		});
+						// Configure the Enhanced Image plugin to use classes instead of styles and to disable the
+						// resizer (because image size is controlled by widget styles or the image takes maximum
+						// 100% of the editor width).
+						/* image2_alignClasses: ['image-align-left', 'image-align-center', 'image-align-right'],
+						image2_disableResizer: true */
+						});
 	</script>
 </body>
 </html>
+
