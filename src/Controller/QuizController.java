@@ -2,7 +2,11 @@ package Controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Properties;
 
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +17,10 @@ import javax.servlet.http.HttpSession;
 
 import DAO.QuestionDAO;
 import DAO.QuizDAO;
+import DAO.StudentDAO;
 import Model.Quiz;
+import Model.Student;
+
 
 /**
  * Servlet implementation class QuizController
@@ -91,6 +98,7 @@ public class QuizController extends HttpServlet {
 			view.forward(request, response);
 		}
 		else if (action.equalsIgnoreCase("submit")) {
+			Student student = new Student();
 			HttpSession session = request.getSession(true);
 			Integer id = (Integer) session.getAttribute("currentSessionUserID");
 			Integer quizId = Integer.parseInt(request.getParameter("quizId"));
@@ -101,6 +109,33 @@ public class QuizController extends HttpServlet {
 			quiz.setQuizId(quizId);
 			
 			QuizDAO.addResult(quiz);
+			
+			student = StudentDAO.getStudentByEmail(id);
+			
+			String fromEmail = "saparitbilal@gmail.com"; //requires valid gmail id
+			String password = "paritbilal100";
+			
+			System.out.println("TLSEmail Start");
+			Properties props = new Properties();
+			props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP Host
+			props.put("mail.smtp.port", "587"); //TLS Port
+			props.put("mail.smtp.auth", "true"); //enable authentication
+			props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
+			
+	                //create Authenticator object to pass in Session.getInstance argument
+			Authenticator auth = new Authenticator() {
+				//override the getPasswordAuthentication method
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(fromEmail, password);
+				}
+			};
+			Session sessions = Session.getInstance(props, auth);
+			
+			String messages = "Tahniah! Anak anda telah berjaya menjawab soalan kuiz. Sila rujuk sistem untuk melihat keputusan pelajar. Terima kasih";;
+			System.out.println(messages);
+			
+			EmailUtil.sendEmail(sessions, student.getParentEmail(),"Kuiz Jawi", messages);
+			
 			
 			response.setContentType("text/html");
 			PrintWriter pw = response.getWriter();
