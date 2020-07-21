@@ -134,7 +134,7 @@ public class QuizController extends HttpServlet {
 			String messages = "Tahniah! Anak anda telah berjaya menjawab soalan kuiz. Sila rujuk sistem untuk melihat keputusan pelajar. Terima kasih";;
 			System.out.println(messages);
 			
-			EmailUtil.sendEmail(sessions, student.getParentEmail(),"Kuiz Jawi", messages);
+//			EmailUtil.sendEmail(sessions, student.getParentEmail(),"Kuiz Jawi", messages);
 			
 			
 			response.setContentType("text/html");

@@ -65,11 +65,12 @@ public class QuestionController extends HttpServlet {
 			HttpSession session = request.getSession(true);
 			Integer studentId = (Integer) session.getAttribute("currentSessionUserID");
 			Integer number = Integer.parseInt(request.getParameter("number"));
-
-			question = QuestionDAO.CheckAnswer(studentId, number);
-
 			Integer quizId = Integer.parseInt(request.getParameter("quizId"));
 			String quizIdS = request.getParameter("quizId");
+
+			question = QuestionDAO.CheckAnswer(studentId, number, quizId);
+
+			
 
 			if (question.isValid()) { // already answered
 				// rediret to update

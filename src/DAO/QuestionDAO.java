@@ -261,13 +261,13 @@ public class QuestionDAO {
 	}
 
 	// check student already answer that Q or not
-	public static Question CheckAnswer(Integer studentID, Integer questionNumber) {
+	public static Question CheckAnswer(Integer studentID, Integer questionNumber, Integer quizId) {
 		Question question = new Question();
 		try {
 			currentCon = ConnectionManager.getConnection();
 			ps = currentCon
 					.prepareStatement("select * from studentanswer s join questions q on (s.questionid = q.questionID) "
-							+ "where studentid = '" + studentID + "' and questionnumber = '" + questionNumber + "'");
+							+ "where studentid = '" + studentID + "' and questionnumber = '" + questionNumber + "' and quizId = '"+quizId +"'");
 
 			ResultSet rs = ps.executeQuery();
 

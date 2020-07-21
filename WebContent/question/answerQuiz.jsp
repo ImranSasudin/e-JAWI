@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -105,7 +105,7 @@
 											<div class="col-md-12">
 												<div class="form-group">
 													<h3 class="p-3 mb-2 bg-light text-dark">
-														<c:out value="${question.questionName }" />
+														<c:out value="${question.questionName }" escapeXml="false"/> 
 													</h3>
 												</div>
 											</div>
