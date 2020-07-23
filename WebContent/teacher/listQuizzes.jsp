@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
@@ -142,7 +142,7 @@
 											<tbody>
 												<c:forEach var="quiz" items="${quizzes}">
 													<tr>
-														<td><c:out value="${quiz.quizName}" /></td>
+														<td><c:out value="${quiz.quizName}" escapeXml="false"/></td>
 														<td>
 															<div class="form-button-action">
 																<a

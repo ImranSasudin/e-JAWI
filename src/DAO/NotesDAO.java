@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Connection.ConnectionManager;
+import Model.Comment;
 import Model.Notes;
 import Model.Teacher;
 
@@ -21,8 +22,8 @@ public class NotesDAO {
 	static Statement stmt = null;
 
 	static int notesID;
-	static String notesTitle, notesContent;
-	static Integer teacherId;
+	static String notesTitle, notesContent, comments, timestamps, studentName;
+	static Integer teacherId, studentId;
 
 	// add notes
 	public static void add(Notes notes) {
@@ -34,7 +35,8 @@ public class NotesDAO {
 
 		try {
 			currentCon = ConnectionManager.getConnection();
-			ps = currentCon.prepareStatement("insert into note (notesTitle, notesContent, teacherId)" + " values(?,?,?)");
+			ps = currentCon
+					.prepareStatement("insert into note (notesTitle, notesContent, teacherId)" + " values(?,?,?)");
 			ps.setString(1, notesTitle);
 			ps.setString(2, notesContent);
 			ps.setInt(3, teacherId);
@@ -66,6 +68,104 @@ public class NotesDAO {
 				}
 			}
 		}
+	}
+
+	// add notes
+	public static void addComment(Comment comment) {
+
+		notesID = comment.getNotesId();
+		studentId = comment.getStudentId();
+		comments = comment.getComment();
+
+		try {
+			currentCon = ConnectionManager.getConnection();
+			ps = currentCon.prepareStatement(
+					"insert into comment (student_id, notes_id, comment, timestamps)" + " values(?,?,?,NOW())");
+			ps.setInt(1, studentId);
+			ps.setInt(2, notesID);
+			ps.setString(3, comments);
+			ps.executeUpdate();
+
+		}
+
+		catch (Exception ex) {
+			System.out.println("failed: An Exception has occured!" + ex);
+		}
+
+		finally {
+			if (ps != null) {
+				try {
+					ps.close();
+				} catch (Exception e) {
+					ps = null;
+				}
+				if (currentCon != null) {
+					try {
+						currentCon.close();
+					} catch (Exception e_) {
+						currentCon = null;
+					}
+				}
+			}
+		}
+	}
+
+	// list all product
+	public static List<Comment> getCommentById(int notesId) {
+
+		List<Comment> comments = new ArrayList<Comment>();
+
+		try {
+			currentCon = ConnectionManager.getConnection();
+			stmt = currentCon.createStatement();
+
+			String q = "select s.studentName, c.comment, DATE_FORMAT(c.timestamps, '%d/%m/%y %I:%i %p') as date from comments c join students s on "
+					+ "(c.student_id = s.id) join note n on (n.notesID = c.notes_id) where n.notesID = '" + notesId
+					+ "'";
+			ResultSet rs = stmt.executeQuery(q);
+
+			while (rs.next()) {
+				Comment comment = new Comment();
+
+				comment.setStudentName(rs.getString(1));
+				comment.setComment(rs.getString(2));
+				comment.setTimestamps(rs.getString(3));
+				// notes.setTeacherEmail(rs.getString("teacherEmail"));
+				comments.add(comment);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return comments;
+	}
+
+	// list all product
+	public static boolean checkComment(int notesId, int studentId) {
+
+		boolean valid = false;
+		try {
+			currentCon = ConnectionManager.getConnection();
+			stmt = currentCon.createStatement();
+
+			String q = "select s.studentName, c.comment, DATE_FORMAT(c.timestamps, '%d/%m/%y %I:%i %p') "
+					+ "as date from comments c join students s on (c.student_id = s.id) "
+					+ "join note n on (n.notesID = c.notes_id) where n.notesID = '"+ notesId +"' "
+					+ "and s.id = '"+ studentId +"'";
+			
+			ResultSet rs = stmt.executeQuery(q);
+
+			if (rs.next()) {
+				valid = true;			
+			}
+			else {
+				valid = false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return valid;
 	}
 
 	// list all product
@@ -152,7 +252,8 @@ public class NotesDAO {
 		Notes notes = new Notes();
 		try {
 			currentCon = ConnectionManager.getConnection();
-			ps = currentCon.prepareStatement("select * from note n join teachers t on (n.teacherId = t.id) where notesID=?");
+			ps = currentCon
+					.prepareStatement("select * from note n join teachers t on (n.teacherId = t.id) where notesID=?");
 
 			ps.setInt(1, notesID);
 

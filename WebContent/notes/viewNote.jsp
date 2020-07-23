@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -41,6 +41,7 @@
 
 <!-- CSS Just for demo purpose, don't include it in your project -->
 <link rel="stylesheet" href="/e-JAWI/assets/css/demo.css">
+
 </head>
 <body data-background-color="bg3">
 	<div class="wrapper">
@@ -48,20 +49,40 @@
 			Tip 1: You can change the background color of the main header using: data-background-color="blue | purple | light-blue | green | orange | red"
 		-->
 		<div class="main-header" data-background-color="light-blue">
-		<% if(role.equalsIgnoreCase("Student")){ %>
+			<%
+				if (role.equalsIgnoreCase("Student")) {
+			%>
 			<jsp:include page="../StudentHeader.jsp" />
-		<% } else if(role.equalsIgnoreCase("Admin")){  %>
+			<%
+				} else if (role.equalsIgnoreCase("Admin")) {
+			%>
 			<jsp:include page="../AdminHeader.jsp" />
-		<% } %>
+			<%
+				} else if (role.equalsIgnoreCase("Teacher")) {
+			%>
+			<jsp:include page="../TeacherHeader.jsp" />
+			<%
+				}
+			%>
 		</div>
 
 		<!-- Sidebar -->
 		<div class="sidebar">
-			<% if(role.equalsIgnoreCase("Student")){ %>
-				<jsp:include page="../StudentSidebar.jsp" />
-			<% } else if(role.equalsIgnoreCase("Admin")){  %>
-				<jsp:include page="../AdminSidebar.jsp" />
-			<% } %>
+			<%
+				if (role.equalsIgnoreCase("Student")) {
+			%>
+			<jsp:include page="../StudentSidebar.jsp" />
+			<%
+				} else if (role.equalsIgnoreCase("Admin")) {
+			%>
+			<jsp:include page="../AdminSidebar.jsp" />
+			<%
+				} else if (role.equalsIgnoreCase("Teacher")) {
+			%>
+			<jsp:include page="../TeacherSidebar.jsp" />
+			<%
+				}
+			%>
 		</div>
 		<!-- End Sidebar -->
 
@@ -95,23 +116,71 @@
 										<div class="row mt-3">
 											<div class="col-md-12">
 												<div class="form-group form-group-default">
-													<h3><b>Note Title : <c:out value="${notes.notesTitle}" escapeXml="false"/></b></h3>
+													<h3>
+														<b>Note Title : <c:out value="${notes.notesTitle}"
+																escapeXml="false" /></b>
+													</h3>
 												</div>
 											</div>
 										</div>
 										<div class="row mt-3">
 											<div class="col-md-12">
 												<div class="form-group">
-													<c:out value="${notes.notesContent}" escapeXml="false"/>
+													<c:out value="${notes.notesContent}" escapeXml="false" />
 												</div>
 											</div>
 										</div>
-										<div class="card-footer">
-										<div class="text-left mt-3 mb-3">
-											<a class="btn btn-primary" href="/e-JAWI/NotesController?action=listNotes">Back</a>
-										</div>
-										</div>
+
+
 									</form>
+								</div>
+								<div class="card-footer">
+									<div class="row">
+										<div class="col-sm-12">
+											<h4 class="page-title">Comment</h4>
+										</div>
+										<!-- /col-sm-12 -->
+									</div>
+									<c:if test="${currentSessionUserRole == 'Student' }">
+									<div class="row">
+										<div class="col-sm-7">
+											<form action="/e-JAWI/NotesController" method="post">
+											<input type="hidden" name="notesID"
+											value="<c:out value="${notes.notesID}" />" />
+												<div class="form-group">
+													<textarea class="form-control" rows="7" name="comment" ${exist ? 'readonly' : '' } placeholder="Leave your comment here" id="exampleInputEmail1" required
+														aria-describedby="emailHelp"></textarea>
+												</div>
+												<button type="submit" name="action" value="addComment" class="btn btn-success float-right mr-2 ${exist ? 'disabled' : '' }"  ${exist ? 'disabled' : '' }>Submit</button>
+											</form>
+										</div>
+									</div>
+									</c:if>
+
+									<!-- /row -->
+									<div class="row mt-3">
+
+									<c:forEach items="${comments}" var="comment">
+										<div class="col-sm-6">
+											<div class="card rounded-5">
+												<div class="card-header bg-secondary text-white "><b>${comment.studentName} | ${comment.timestamps}</b></div>
+												<div class="card-body">
+													<p class="card-text">${comment.comment}</p>
+
+												</div>
+											</div>
+										</div>
+									</c:forEach>
+
+									</div>
+									<!-- /row -->
+									<hr>
+									<!-- /container -->
+									<div class="text-left mt-3 mb-3">
+										<a class="btn btn-primary text-white"
+											onclick="window.history.back()">Back</a>
+										<!-- href="/e-JAWI/NotesController?action=listNotes" -->
+									</div>
 								</div>
 							</div>
 						</div>

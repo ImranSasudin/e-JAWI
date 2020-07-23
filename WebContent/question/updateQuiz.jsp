@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -71,7 +71,7 @@
 							<li class="nav-item"><a href="#">Take Quiz</a></li>
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
 							<li class="nav-item"><a href="#"><c:out
-										value="${quiz.quizName }" /></a></li>
+										value="${quiz.quizName }" escapeXml="false"/></a></li>
 						</ul>
 					</div>
 					<div class="row">
@@ -105,7 +105,7 @@
 											<div class="col-md-12">
 												<div class="form-group">
 													<h3 class="p-3 mb-2 bg-light text-dark">
-														<c:out value="${question.questionName }" />
+														<c:out value="${question.questionName }" escapeXml="false" />
 													</h3>
 												</div>
 											</div>
@@ -127,28 +127,28 @@
 																	class="form-control" name="answer" ${question.option1 == choosenanswer ? 'checked' : ' ' }
 																	value="<c:out value="${question.option1 }" />"
 																	placeholder="" required></td>
-																<td><c:out value="${question.option1 }" /></td>
+																<td><c:out value="${question.option1 }" escapeXml="false"/></td>
 															</tr>
 															<tr>
 																<td><input id="" type="radio"
 																	class="form-control" name="answer" ${question.option2 == choosenanswer ? 'checked' : ' ' }
 																	value="<c:out value="${question.option2 }" />"
 																	placeholder=""></td>
-																<td><c:out value="${question.option2 }" /></td>
+																<td><c:out value="${question.option2 }" escapeXml="false"/></td>
 															</tr>
 															<tr>
 																<td><input id="" type="radio"
 																	class="form-control" name="answer" ${question.option3 == choosenanswer ? 'checked' : ' ' }
 																	value="<c:out value="${question.option3 }" />"
 																	placeholder=""></td>
-																<td><c:out value="${question.option3 }" /></td>
+																<td><c:out value="${question.option3 }" escapeXml="false"/></td>
 															</tr>
 															<tr>
 																<td><input id="" type="radio"
 																	class="form-control" name="answer" ${question.option4 == choosenanswer ? 'checked' : ' ' }
 																	value="<c:out value="${question.option4 }" />"
 																	placeholder=""></td>
-																<td><c:out value="${question.option4 }" /></td>
+																<td><c:out value="${question.option4 }" escapeXml="false"/></td>
 															</tr>
 														</tbody>
 													</table>

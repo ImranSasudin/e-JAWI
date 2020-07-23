@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import DAO.NotesDAO;
+import Model.Comment;
 import Model.Notes;
 
 /**
@@ -58,8 +59,12 @@ public class NotesController extends HttpServlet {
 		else if (action.equalsIgnoreCase("viewNotes")) {
 			forward = VIEW;
 			int notesID = Integer.parseInt(request.getParameter("notesID"));
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
 			Notes notes = NotesDAO.getNotesByNotesID(notesID);
 			request.setAttribute("notes", notes);
+			request.setAttribute("comments", NotesDAO.getCommentById(notesID));
+			request.setAttribute("exist", NotesDAO.checkComment(notesID, id));
 			
 			RequestDispatcher view = request.getRequestDispatcher(forward);
 			view.forward(request, response);
@@ -177,6 +182,25 @@ public class NotesController extends HttpServlet {
 			pw.println("alert('The notes has been deleted');");
 			pw.println("window.location.href='/e-JAWI/NotesController?action=listNotes';");
 			pw.println("</script>");
+			
+		}
+		else if(action.equalsIgnoreCase("addComment")) {
+			Integer notesId = Integer.parseInt(request.getParameter("notesID"));
+			String comments = request.getParameter("comment");
+			
+			HttpSession session = request.getSession(true);
+			Integer id = (Integer) session.getAttribute("currentSessionUserID");
+			
+			Comment comment = new Comment();
+			
+			comment.setNotesId(notesId);
+			comment.setStudentId(id);
+			comment.setComment(comments);
+			
+			NotesDAO.addComment(comment);
+			
+			response.sendRedirect("/e-JAWI/NotesController?action=viewNotes&notesID="+notesId);
+			
 			
 		}
 

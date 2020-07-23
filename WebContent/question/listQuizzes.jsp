@@ -100,7 +100,7 @@
 											<tbody>
 												<c:forEach var="quiz" items="${quizzes}">
 													<tr>
-														<td><c:out value="${quiz.quizName}" /></td>
+														<td><c:out value="${quiz.quizName}" escapeXml="false"/></td>
 														<td><c:out value="${quiz.teacherName}" /></td>
 														<td class="text-center"><c:out value="${quiz.count}" /></td>
 														<td>

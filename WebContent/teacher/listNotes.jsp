@@ -70,8 +70,8 @@
 
 						<div class="col-md-8">
 							<a class="btn btn-primary btn-round ml-auto"
-								href="/e-JAWI/notes/addNotes.jsp"> <i
-								class="fa fa-plus"></i> Add Note
+								href="/e-JAWI/notes/addNotes.jsp"> <i class="fa fa-plus"></i>
+								Add Note
 							</a> <br> <br>
 							<div class="card">
 								<div class="card-header">
@@ -100,10 +100,17 @@
 											<tbody>
 												<c:forEach var="notes" items="${notes}">
 													<tr>
-														<td><c:out value="${notes.notesTitle}" escapeXml="false"/></td>
+														<td><c:out value="${notes.notesTitle}"
+																escapeXml="false" /></td>
 														<td>
 															<div class="form-button-action">
 																<a
+																	href="NotesController?action=viewNotes&notesID=<c:out value="${notes.notesID}" />"
+																	data-toggle="tooltip" title=""
+																	class="btn btn-link btn-primary btn-lg"
+																	data-original-title="View Note"> <i
+																	class="fas fa-eye"></i>
+																</a> <a
 																	href="NotesController?action=updateNotes&notesID=<c:out value="${notes.notesID}" />"
 																	data-toggle="tooltip" title=""
 																	class="btn btn-link btn-primary btn-lg"
@@ -111,7 +118,8 @@
 																	class="fa fa-edit"></i>
 																</a> <a
 																	href="NotesController?action=deleteNotes&notesID=<c:out value="${notes.notesID}" />"
-																	data-toggle="tooltip" title="" onClick="return confirm('Confirm delete?');"
+																	data-toggle="tooltip" title=""
+																	onClick="return confirm('Confirm delete?');"
 																	class="btn btn-link btn-danger"
 																	data-original-title="Remove"> <i
 																	class="fa fa-times"></i>
@@ -186,39 +194,70 @@
 
 	<script>
 		$('#notes').addClass("active");
-		$(document).ready(function() {
-			$('#basic-datatables').DataTable({
-			});
+		$(document)
+				.ready(
+						function() {
+							$('#basic-datatables').DataTable({});
 
-			$('#multi-filter-select').DataTable( {
-				"pageLength": 5,
-				initComplete: function () {
-					this.api().columns().every( function () {
-						var column = this;
-						var select = $('<select class="form-control"><option value=""></option></select>')
-						.appendTo( $(column.footer()).empty() )
-						.on( 'change', function () {
-							var val = $.fn.dataTable.util.escapeRegex(
-								$(this).val()
-								);
+							$('#multi-filter-select')
+									.DataTable(
+											{
+												"pageLength" : 5,
+												initComplete : function() {
+													this
+															.api()
+															.columns()
+															.every(
+																	function() {
+																		var column = this;
+																		var select = $(
+																				'<select class="form-control"><option value=""></option></select>')
+																				.appendTo(
+																						$(
+																								column
+																										.footer())
+																								.empty())
+																				.on(
+																						'change',
+																						function() {
+																							var val = $.fn.dataTable.util
+																									.escapeRegex($(
+																											this)
+																											.val());
 
-							column
-							.search( val ? '^'+val+'$' : '', true, false )
-							.draw();
-						} );
+																							column
+																									.search(
+																											val ? '^'
+																													+ val
+																													+ '$'
+																													: '',
+																											true,
+																											false)
+																									.draw();
+																						});
 
-						column.data().unique().sort().each( function ( d, j ) {
-							select.append( '<option value="'+d+'">'+d+'</option>' )
-						} );
-					} );
-				}
-			});
+																		column
+																				.data()
+																				.unique()
+																				.sort()
+																				.each(
+																						function(
+																								d,
+																								j) {
+																							select
+																									.append('<option value="'+d+'">'
+																											+ d
+																											+ '</option>')
+																						});
+																	});
+												}
+											});
 
-			// Add Row
-			$('#add-row').DataTable({
-				"pageLength": 5,
-			});
-		});
+							// Add Row
+							$('#add-row').DataTable({
+								"pageLength" : 5,
+							});
+						});
 	</script>
 </body>
 </html>

@@ -71,7 +71,7 @@
 							<li class="nav-item"><a href="#">Take Quiz</a></li>
 							<li class="separator"><i class="flaticon-right-arrow"></i></li>
 							<li class="nav-item"><a href="#"><c:out
-										value="${quiz.quizName }" /></a></li>
+										value="${quiz.quizName }" escapeXml="false"/></a></li>
 						</ul>
 					</div>
 					<div class="row">
@@ -127,28 +127,28 @@
 																	class="form-control" name="answer"
 																	value="<c:out value="${question.option1 }" />"
 																	placeholder="" required></td>
-																<td><c:out value="${question.option1 }" /></td>
+																<td><c:out value="${question.option1 }" escapeXml="false" /></td>
 															</tr>
 															<tr>
 																<td><input id="" type="radio"
 																	class="form-control" name="answer"
 																	value="<c:out value="${question.option2 }" />"
 																	placeholder=""></td>
-																<td><c:out value="${question.option2 }" /></td>
+																<td><c:out value="${question.option2 }" escapeXml="false"/></td>
 															</tr>
 															<tr>
 																<td><input id="" type="radio"
 																	class="form-control" name="answer"
 																	value="<c:out value="${question.option3 }" />"
 																	placeholder=""></td>
-																<td><c:out value="${question.option3 }" /></td>
+																<td><c:out value="${question.option3 }" escapeXml="false"/></td>
 															</tr>
 															<tr>
 																<td><input id="" type="radio"
 																	class="form-control" name="answer"
 																	value="<c:out value="${question.option4 }" />"
 																	placeholder=""></td>
-																<td><c:out value="${question.option4 }" /></td>
+																<td><c:out value="${question.option4 }" escapeXml="false"/></td>
 															</tr>
 														</tbody>
 													</table>
